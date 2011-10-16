@@ -95,6 +95,8 @@ public:
 	*/
 	friend istream& operator>> (istream& istr, state& x); 
 
+	friend state& astar(state& start, state& goal);
+
 private:
 
 	int g; //Number of moves from the inital state to the current state.
