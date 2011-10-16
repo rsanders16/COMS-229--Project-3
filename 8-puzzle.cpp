@@ -2,6 +2,7 @@
 
 using namespace std;
 
+
 /**
 CONSTRUCTOR:  state(int**, state*)
 DESCRIPTION:  Generate a state with a 3x3 board configuration stored in a 2-dimunsional array bd, and a pointer to its parent state.
@@ -10,7 +11,11 @@ bd - A pointer the board to be instantiated
 sate - A pointer to the boards parent state
 */
 state::state(int **bd, state* prnt = 0){
+	
 	this->board = bd;
+
+
+
 	this->parent = prnt;
 }
 
@@ -73,10 +78,30 @@ x - The state object
 RETRUN: The outstream used during the execution of this function
 */
 ostream& operator<< (ostream& ostr, const state& x) { 
-	int ** q = x.board;
-	cout << q[0] << " " << q[1] << " " << q[2]  << endl;
-	cout << q[3] << " " << q[4] << " " << q[5]  << endl;
-	cout << q[6] << " " << q[7] << " " << q[8]  << endl;
+	if(x.board[0][0] == 0) cout << " "; else cout << x.board[0][0];
+	cout << " ";
+	if(x.board[0][1] == 0) cout << " "; else cout << x.board[0][1];
+	cout << " ";
+	if(x.board[0][2] == 0) cout << " "; else cout << x.board[0][2];
+	cout << " ";
+	cout << endl;
+
+	if(x.board[1][0] == 0) cout << " "; else cout << x.board[1][0];
+	cout << " ";
+	if(x.board[1][1] == 0) cout << " "; else cout << x.board[1][1];
+	cout << " ";
+	if(x.board[1][2] == 0) cout << " "; else cout << x.board[1][2];
+	cout << " ";
+	cout << endl;
+
+	if(x.board[2][0] == 0) cout << " "; else cout << x.board[2][0];
+	cout << " ";
+	if(x.board[2][1] == 0) cout << " "; else cout << x.board[2][1];
+	cout << " ";
+	if(x.board[2][2] == 0) cout << " "; else cout << x.board[2][2];
+	cout << " ";
+	cout << endl;
+
 	return ostr;
 } 
 
@@ -89,16 +114,29 @@ x - The state to be created
 RETRUN: The instream used during the execution of this function
 */
 istream& operator>> (istream& istr, state& x){
-	int ** board;
-	board = new int * [NUM_ROWS_ON_BOARD];
-	for(int i = 0 ; i < NUM_ROWS_ON_BOARD ; i++)
-		board[i] = new int [NUM_COLS_ON_BOARD];
-	for(int i = 0 ; i < NUM_ROWS_ON_BOARD ; i++)
-		for(int j = 0 ; j < NUM_COLS_ON_BOARD ; j++)
-			cin >> board[i][j];
-	x = *new state(board);
+	int p1, p2, p3, p4, p5, p6, p7, p8, p9;
+	cin >> p1 >> p2 >> p3 >> p4 >> p5 >> p6 >> p7 >> p8 >> p9;
+
+	int **board;
+	board = new int*[NUM_ROWS_ON_BOARD];
+	for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
+	{
+		board[i] = new int[NUM_COLS_ON_BOARD];
+	}
 	
-	exit(1);
+	board[0][0] = p1;
+	board[0][1] = p2;
+	board[0][2] = p3;
+
+	board[1][0] = p4;
+	board[1][1] = p5;
+	board[1][2] = p6;
+
+	board[2][0] = p7;
+	board[2][1] = p8;
+	board[2][2] = p9;
+
+	x = *new state(board);
 	return istr;
 } 
 
