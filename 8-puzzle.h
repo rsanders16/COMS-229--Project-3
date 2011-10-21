@@ -36,6 +36,8 @@ public:
 
 	state();
 
+	state::state(const state& obj);
+
 	/**
 	DECONSTRUCTOR:
 	DESCRIPTION: Destructs "this" state object by freeing the memory of board and parent since they are stored with dynamic memory.
@@ -50,6 +52,8 @@ public:
 	RETURN:  The number of moves from the inital state to the current state.
 	*/
 	int getG() const;
+
+	void setG(int g);
 
 	/**
 	FUNCTION: getBoard()
@@ -78,6 +82,8 @@ public:
 	RETURN bool - True if in fact 'this' state is equal to otherState
 	*/
 	bool operator== (const state& otherState) const;
+
+	state& state::operator= (const state& otherState);
 
 	/**
 	FUNCTION: overload operator << 

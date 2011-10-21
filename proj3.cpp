@@ -29,10 +29,54 @@ int numberOfInversions(state& x)
 	return num;
 }
 
+bool isParent(state& st){
+	int ** board = st.getBoard();
+	if(board[0][0] != 0)return false;
+	if(board[0][1] != 0)return false;
+	if(board[0][2] != 0)return false;
+	if(board[1][0] != 0)return false;
+	if(board[1][1] != 0)return false;
+	if(board[1][2] != 0)return false;
+	if(board[2][0] != 0)return false;
+	if(board[2][1] != 0)return false;
+	if(board[2][2] != 0)return false;
+	if(st.getG() != -1)return false;
+	return true;
+}
+
 void printPath(state current_state){
-	while(current_state.getParent() != NULL){
-		cout << current_state;
+	int moveCount = 1;
+
+	int **board;
+	board = new int*[NUM_ROWS_ON_BOARD];
+	for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
+	{
+		board[i] = new int[NUM_COLS_ON_BOARD];
 	}
+	
+	board[0][0] = 1;
+	board[0][1] = 2;
+	board[0][2] = 3;
+
+	board[1][0] = 8;
+	board[1][1] = 0;
+	board[1][2] = 4;
+
+	board[2][0] = 7;
+	board[2][1] = 6;
+	board[2][2] = 5;
+
+	state goal = *new state(board);
+
+	while(!(current_state == goal)){
+		cout << current_state;
+		cout << endl;
+		cout << "MOVE" << endl;
+		cout << endl;
+		moveCount++;
+		current_state = *current_state.getParent();
+	}
+	cout << moveCount << " moves in total.";
 	cout << endl << endl;
 }
 
@@ -76,50 +120,50 @@ list<state> neighbor_nodes(state s){
 	list<state> neighbors = *new list<state>;
 	int** board = s.getBoard();
 	if(board[0][0] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(0,1, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(0,3, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(0,1, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(0,3, board), s.getParent()));
 	}
 	else if(board[0][1] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(1,2, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(1,0, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(1,4, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(1,2, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(1,0, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(1,4, board), s.getParent()));
 	}
 	else if(board[0][2] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(2,5, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(2,1, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(2,5, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(2,1, board), s.getParent()));
 	}
 	else if(board[1][0] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(3,0, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(3,6, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(3,4, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(3,0, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(3,6, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(3,4, board), s.getParent()));
 	}
 	else if(board[1][1] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(4,3, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(4,1, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(4,5, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(4,8, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(4,3, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(4,1, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(4,5, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(4,8, board), s.getParent()));
 	}
 	else if(board[1][2] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(5,8, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(5,2, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(5,4, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(5,8, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(5,2, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(5,4, board), s.getParent()));
 	}
 	else if(board[2][0] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(6,7, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(6,3, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(6,7, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(6,3, board), s.getParent()));
 	}
 	else if(board[2][1] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(7,4, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(7,6, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(7,8, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(7,4, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(7,6, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(7,8, board), s.getParent()));
 	}
 	else if(board[2][2] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(0,7, board), &s));
-		neighbors.push_back(*new state(getInitalizedBoard(0,5, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(8,7, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(8,5, board), s.getParent()));
 	}
 	else{
-		cerr << endl << "ERROR:  A state had a board that had an illegal state." << endl;
-		exit(-1);
+		//cerr << endl << "ERROR:  A state had a board that had an illegal state." << endl;
+		//exit(-1);
 	}
 	return neighbors;
 }
@@ -150,26 +194,30 @@ bool astar(state start, state goal, int h_function_to_use)
 		bool removedGoalState = false;
 		state S;
 		int counter = 0;
-		for(i = OPEN.begin(), S = *i ; i != OPEN.end(); ++i){
+		bool done = false;
+		for(i = OPEN.begin(), S = *i ; i != OPEN.end() && done == false; ++i){
+				S = *i;
 				if(f(h_function_to_use, *i) < f(h_function_to_use, S)){
 					S = *i;
 				}
 				if(*i == goal)
 				{
-					OPEN.remove(goal);
-					CLOSED.push_back(goal);
+					OPEN.remove(S);
+					CLOSED.push_back(S);
 					removedGoalState = true;
+					done = true;
+					continue;
 				}
 		}
-		if(!removedGoalState && !(S == start)){
+		if(!removedGoalState){
 			OPEN.remove(S);
 			CLOSED.push_back(S);
 		}
 
 		//4. If S is the goal state, exit successfully and print out the
 		//entire solution path (step-by-step state transitions)
-		if(S == goal){
-			printPath(goal);
+		if(S == goal || done){
+			printPath(S);
 			return true;
 		}
 
@@ -186,37 +234,21 @@ bool astar(state start, state goal, int h_function_to_use)
 		else{
 			list<state> neighbors = neighbor_nodes(S);
 			list<state>::iterator i;
+
+			int childCount = 0;
 			for(i = neighbors.begin() ; i != neighbors.end() ; ++i){
 				state T = *i;
-
-				int hOfTEstimate = 0;
-				int fOfT = f(h_function_to_use, T);
-				if(h_function_to_use == 1){
-					hOfTEstimate = h1(T);
-				}
-				else{
-					hOfTEstimate = h2(T);
-				}
-				
-				if(fOfT != S.getG() + 1 + hOfTEstimate){
-					cerr << endl << "ERROR: Illegal State - g(T) + h(T) != g(S) + 1 + h(T)" << endl;
-					exit(0);
-				}
-
 				state * oldStateOfT;
 			
 				bool openContainsT = false;
 				list<state>::iterator openIterator;
-				int size = OPEN.size();
-				int count = 0;
 				for(openIterator = OPEN.begin(); openIterator != OPEN.end() ; ++openIterator){
-					state nullState = *new state();
 					if(*openIterator == T){
 						openContainsT = true;
 						oldStateOfT = &(*openIterator);
+						break;
 					}
-					count++;
-				}
+				}	
 
 				bool closedContainsT = false;
 				list<state>::iterator closedIterator;
@@ -224,77 +256,57 @@ bool astar(state start, state goal, int h_function_to_use)
 					if(*closedIterator == T){
 						closedContainsT = true;
 						oldStateOfT = &(*closedIterator);
+						break;
 					}
 				}
 
-				int newFValueOfT = f(h_function_to_use, T);
-				bool newIsMinFValue = false;
-				
-				if(closedContainsT || openContainsT){
-					if(newFValueOfT < f(h_function_to_use, *oldStateOfT)){
-						newIsMinFValue = true;
-					}
-				}
+				//int newGValueOfT = 0;
+				//int oldGValueOfT = 0;
+				//bool newIsMinGValue = false;
+				//
+				//
+
+				//
+
+
+				//if(closedContainsT || openContainsT){
+				//	newGValueOfT = S.getG() + 1;
+				//	oldGValueOfT = T.getG();
+				//	
+				//	if(newGValueOfT < oldGValueOfT){
+				//		newIsMinGValue = true;
+				//	}
+				//}
 
 				/////////////////////////////////////////////////////////////////////////////////////////////
 				/////////////////////////////////////////////////////////////////////////////////////////////
 
-				if(!openContainsT && !closedContainsT){
+				if(openContainsT == false && closedContainsT == false){
 					OPEN.push_back(T);
 				}
 				else if(openContainsT){
 					//T is already on OPEN, compare its old and new f values
 					//and choose the minimum, resetting its parent pointer (along
 					//the path yielding the lowest g(T)).
-					if(newIsMinFValue){
-						T.setParent(&S);
-					}
-					else{
-						oldStateOfT->setParent(&S);
+					if(S.getG() + 1 < T.getG()){
+						T.setG(S.getG() + 1);
+						T.setParent(oldStateOfT->getParent());
 					}
 				}
 				else if(closedContainsT){
 					//T is on CLOSED and if its new f value is less than the old
 					//one, put T on OPEN and reset its parent pointer.
-					if(newIsMinFValue){
-						oldStateOfT->setParent(&S);
-						OPEN.push_back(*oldStateOfT);
+					if(S.getG() + 1 < T.getG()){
+						CLOSED.remove(T);
+						OPEN.push_back(T);
+						T.setG(S.getG() + 1);
+						T.setParent(oldStateOfT->getParent());
 					}
 				}
-				//else{
-				//	cerr << endl << "ERROR: Illegal State - state T was located in the OPEN set and the CLOSED set at the same time" << endl;
-				//	exit(0);
-				//}
-
-				////////////////////////////////////////////////////////////////////////////////////////////////////
-				////////////////////////////////////////////////////////////////////////////////////////////////////
-
-				//if(closedContainsT){
-				//	continue;
-				//}
-				//int tentative_g_score = 1;
-				//bool tentative_is_better = false;
-				//if(h_function_to_use = 1){
-				//	tentative_g_score = h1(S);
-				//}
-				//else{
-				//	tentative_g_score = h2(S);
-				//}
-				//if(!openContainsT){
-				//	OPEN.push_back(T);
-				//	tentative_is_better = true;
-				//}
-				//else if(tentative_g_score < T.getG()){
-				//	tentative_is_better = true;
-				//}
-				//else{
-				//	tentative_is_better = false;
-				//}
-
-				//if(tentative_is_better){
-				//	T.setParent(&S);
-				//	T.setG(tentative_g_score);
-				//}
+				else{
+					cerr << endl << "ERROR: Illegal State - state T was located in the OPEN set and the CLOSED set at the same time" << endl;
+					exit(0);
+				}
 			}
 		}
     //6. Go to step 2. 
@@ -356,7 +368,6 @@ int main(){
 		}
 		else
 		{
-			//cout << "A solution exists" << endl << endl;
 			astar(start, goal, 1);
 		}
 
