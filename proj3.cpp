@@ -29,300 +29,303 @@ int numberOfInversions(state& x)
 	return num;
 }
 
-
-
-
-//state& reconstructPath(vector<state> came_from, state& current_node){
-//     if(came_from[current_node]){
-//		 state p;
-//         p = reconstructPath(came_from, came_from[current_node]);
-//		 //came_from.insert(current_node);
-//         //return (p + current_node);
-//	 }
-//     else{
-//         return current_node;
-//	 }
-//}
-
-
-//state& lowestFScore(vector<state> set)
-//{
-//
-//}
-
-void remove(vector<state>& set, state& x){
-
+void printPath(state current_state){
+	while(current_state.getParent() != NULL){
+		cout << current_state;
+	}
+	cout << endl << endl;
 }
 
-bool contains(vector<state>& set, state& x){
-	return 0;
+int** getInitalizedBoard(int p1, int p2, int** oldBoard){
+	int **newBoard;
+	newBoard = new int*[NUM_ROWS_ON_BOARD];
+	for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
+	{
+		newBoard[i] = new int[NUM_COLS_ON_BOARD];
+	}
+
+	int oldBoardLinear[9];
+	for(int i = 0 ; i < 3 ; i++)
+	{
+		for(int j = 0 ; j < 3 ; j++)
+		{
+			oldBoardLinear[(i * 3) + j] = oldBoard[i][j];
+		}
+	}
+
+	int temp = oldBoardLinear[p1];
+	oldBoardLinear[p1] = oldBoardLinear[p2];
+	oldBoardLinear[p2] = temp;
+
+	newBoard[0][0] = oldBoardLinear[0];
+	newBoard[0][1] = oldBoardLinear[1];
+	newBoard[0][2] = oldBoardLinear[2];
+
+	newBoard[1][0] = oldBoardLinear[3];
+	newBoard[1][1] = oldBoardLinear[4];
+	newBoard[1][2] = oldBoardLinear[5];
+
+	newBoard[2][0] = oldBoardLinear[6];
+	newBoard[2][1] = oldBoardLinear[7];
+	newBoard[2][2] = oldBoardLinear[8];
+
+	return newBoard;
 }
 
-void replace(vector<state>& set, state& oldX, state& newX){
-
+list<state> neighbor_nodes(state s){
+	list<state> neighbors = *new list<state>;
+	int** board = s.getBoard();
+	if(board[0][0] == 0){
+		neighbors.push_back(*new state(getInitalizedBoard(0,1, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(0,3, board), &s));
+	}
+	else if(board[0][1] == 0){
+		neighbors.push_back(*new state(getInitalizedBoard(1,2, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(1,0, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(1,4, board), &s));
+	}
+	else if(board[0][2] == 0){
+		neighbors.push_back(*new state(getInitalizedBoard(2,5, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(2,1, board), &s));
+	}
+	else if(board[1][0] == 0){
+		neighbors.push_back(*new state(getInitalizedBoard(3,0, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(3,6, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(3,4, board), &s));
+	}
+	else if(board[1][1] == 0){
+		neighbors.push_back(*new state(getInitalizedBoard(4,3, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(4,1, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(4,5, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(4,8, board), &s));
+	}
+	else if(board[1][2] == 0){
+		neighbors.push_back(*new state(getInitalizedBoard(5,8, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(5,2, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(5,4, board), &s));
+	}
+	else if(board[2][0] == 0){
+		neighbors.push_back(*new state(getInitalizedBoard(6,7, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(6,3, board), &s));
+	}
+	else if(board[2][1] == 0){
+		neighbors.push_back(*new state(getInitalizedBoard(7,4, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(7,6, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(7,8, board), &s));
+	}
+	else if(board[2][2] == 0){
+		neighbors.push_back(*new state(getInitalizedBoard(0,7, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(0,5, board), &s));
+	}
+	else{
+		cerr << endl << "ERROR:  A state had a board that had an illegal state." << endl;
+		exit(-1);
+	}
+	return neighbors;
 }
 
+list<state> OPEN = *new list<state>();
+list<state> CLOSED = *new list<state>();
 
-
-//state& astar(state& start, state& goal){
-//
-//
-//	   /*vector<state> C;
-//
-//   SS.push_back("The number is 10");
-//   SS.push_back("The number is 20");
-//   SS.push_back("The number is 30");
-//
-//   cout << "Loop by index:" << endl;
-//
-//   int ii;
-//   for(ii=0; ii < SS.size(); ii++)
-//   {
-//      cout << SS[ii] << endl;
-//   }*/
-//	
-//	 state x;
-//	 vector<state> CLOSED;    // The set of nodes already evaluated.
-//     vector<state> OPEN;    // The set of tentative nodes to be evaluated, initially containing the start node
-//	 vector<state> PATH;
-//	 int tentative_g_score;
-//	 bool tentative_is_better;
-//	 int h_score;
-//	 int f_score;
-//	 
-//    
-//	 start.g = 0;  // Cost from start along best known path.
-//     h_score = h1(start);
-//	 f_score = start.getG() + h_score;    // Estimated total cost from start to goal through y.
-// 
-//	 while(!OPEN.empty()){
-//
-//         x = lowestFScore(OPEN);
-//         if(x == goal){
-//			 return reconstructPath(PATH, PATH[PATH.size()-1]);
-//		 }
-//	
-//		 remove(OPEN, x);
-//		 CLOSED.push_back(x);
-//		 
-//		 for(int i = 0 ; i < neighbor_nodes(x).size() ; i++){
-//			 state y = neighbor_nodes(x)[i];
-//
-//             if(contains(CLOSED, y)){
-//				 continue;
-//			 }
-//
-//             tentative_g_score = x.getG() + dist_between(x,y);
-//			
-//             if(contains(OPEN, y)){
-//				 OPEN.push_back(y);
-//				 tentative_is_better = 1;
-//			 }
-//             else if (tentative_g_score < y.getG()){
-//                 tentative_is_better = 1;
-//			 }
-//             else{
-//                 tentative_is_better = 0;
-//			 }
-//             if(tentative_is_better == 1){
-//				 replace(PATH, y, x); 
-//				 y.g = tentative_g_score;
-//				 f_score[y] = y.getG() + h1(y);
-//			 }
-//	 }
-//     cerr << endl << "ERROR: Exiting Program" << endl;
-//	 exit(1);
-// 
-//}
-
-//const int n=60; // horizontal size of the map
-//const int m=60; // vertical size size of the map
-//static int map[n][m];
-static int list<state> CLOSED; // map of closed (tried-out) nodes
-static int list<state> OPEN; // map of open (not-yet-tried) nodes
-static int list<state> die_map; // map of directions
-//const int dir=8; // number of possible directions to go at any position
-
-class node
+bool astar(state start, state goal, int h_function_to_use)
 {
-    // current position
-    //int xPos;
-    //int yPos;
-	state st;
-    // total distance already travelled to reach the node
-    int level;
-    // priority=level+remaining distance estimate
-    int priority;  // smaller: higher priority
+	//1. Put the start state S0 on OPEN.  Let g(S0) = 0 and estimate h(S0).
+	OPEN.push_back(start);
+	int hOfStart = 0;
+	if(h_function_to_use == 1){
+		hOfStart = h1(start);
+	}
+	else{
+		hOfStart = h2(start);
+	}
+	
+	//2. If OPEN is empty, exit with failure.
+	while(!OPEN.empty()){
 
-    public:
-        node(state st) 
-		{this->st =st;}
-    
-        int getxPos() const {return xPos;}
-        int getyPos() const {return yPos;}
-        int getLevel() const {return level;}
-        int getPriority() const {return priority;}
+		//3. Remove from OPEN and place on CLOSED a state S whose f value is
+		//   minimum.  If there are several states with the same minimum
+		//   value, arbitrarily remove one; if one is the goal state, then
+		//   remove the goal state.
+		list<state>::iterator i;
+		bool removedGoalState = false;
+		state S;
+		int counter = 0;
+		for(i = OPEN.begin(), S = *i ; i != OPEN.end(); ++i){
+				if(f(h_function_to_use, *i) < f(h_function_to_use, S)){
+					S = *i;
+				}
+				if(*i == goal)
+				{
+					OPEN.remove(goal);
+					CLOSED.push_back(goal);
+					removedGoalState = true;
+				}
+		}
+		if(!removedGoalState && !(S == start)){
+			OPEN.remove(S);
+			CLOSED.push_back(S);
+		}
 
-        void updatePriority(const int & xDest, const int & yDest)
-        {
-             priority=level+estimate(xDest, yDest)*10; //A*
-        }
+		//4. If S is the goal state, exit successfully and print out the
+		//entire solution path (step-by-step state transitions)
+		if(S == goal){
+			printPath(goal);
+			return true;
+		}
 
-        // give better priority to going strait instead of diagonally
-        void nextLevel(const int & i) // i: direction
-        {
-             //level+=(dir==8?(i%2==0?10:14):10);
-        }
-        
-        // Estimation function for the remaining distance to the goal.
-        const int & estimate(const int & xDest, const int & yDest) const
-        {
-            static int xd, yd, d;
-            xd=xDest-xPos;
-            yd=yDest-yPos;         
+		//5. Otherwise, generate S's all possible successor states in one
+		//valid move and set their parent pointers back to S.  For every
+		//successor state T of S:
+				// - Estimate h(T) and compute f(T) = g(T) + h(T) = g(S) + 1 + h(T).
+				// - If T is not already on OPEN or CLOSED, then put it on OPEN. 
+				// - If T is already on OPEN, compare its old and new f values
+				//		and choose the minimum, resetting its parent pointer (along
+				//		the path yielding the lowest g(T)).
+				// - If T is on CLOSED and its new f value is less than the old
+				//		one, put T on OPEN and reset its parent pointer.
+		else{
+			list<state> neighbors = neighbor_nodes(S);
+			list<state>::iterator i;
+			for(i = neighbors.begin() ; i != neighbors.end() ; ++i){
+				state T = *i;
 
-            // Euclidian Distance
-            d=static_cast<int>(sqrt((double)(xd*xd+yd*yd)));
+				int hOfTEstimate = 0;
+				int fOfT = f(h_function_to_use, T);
+				if(h_function_to_use == 1){
+					hOfTEstimate = h1(T);
+				}
+				else{
+					hOfTEstimate = h2(T);
+				}
+				
+				if(fOfT != S.getG() + 1 + hOfTEstimate){
+					cerr << endl << "ERROR: Illegal State - g(T) + h(T) != g(S) + 1 + h(T)" << endl;
+					exit(0);
+				}
 
-            // Manhattan distance
-            //d=abs(xd)+abs(yd);
-            
-            // Chebyshev distance
-            //d=max(abs(xd), abs(yd));
+				state * oldStateOfT;
+			
+				bool openContainsT = false;
+				list<state>::iterator openIterator;
+				int size = OPEN.size();
+				int count = 0;
+				for(openIterator = OPEN.begin(); openIterator != OPEN.end() ; ++openIterator){
+					state nullState = *new state();
+					if(*openIterator == T){
+						openContainsT = true;
+						oldStateOfT = &(*openIterator);
+					}
+					count++;
+				}
 
-            return(d);
-        }
-};
+				bool closedContainsT = false;
+				list<state>::iterator closedIterator;
+				for(closedIterator = CLOSED.begin(); closedIterator != CLOSED.end() ; ++closedIterator){
+					if(*closedIterator == T){
+						closedContainsT = true;
+						oldStateOfT = &(*closedIterator);
+					}
+				}
 
+				int newFValueOfT = f(h_function_to_use, T);
+				bool newIsMinFValue = false;
+				
+				if(closedContainsT || openContainsT){
+					if(newFValueOfT < f(h_function_to_use, *oldStateOfT)){
+						newIsMinFValue = true;
+					}
+				}
 
-// A-star algorithm.
-// The route returned is a string of direction digits.
-string pathFind( const state & start, const state & finish)
-{
-    static priority_queue<node> pq[2]; // list of open (not-yet-tried) nodes
-    static int pqi; // pq index
-    static node* n0;
-    static node* m0;
-    static int i, j, x, y, xdx, ydy;
-    static char c;
-    pqi=0;
+				/////////////////////////////////////////////////////////////////////////////////////////////
+				/////////////////////////////////////////////////////////////////////////////////////////////
 
+				if(!openContainsT && !closedContainsT){
+					OPEN.push_back(T);
+				}
+				else if(openContainsT){
+					//T is already on OPEN, compare its old and new f values
+					//and choose the minimum, resetting its parent pointer (along
+					//the path yielding the lowest g(T)).
+					if(newIsMinFValue){
+						T.setParent(&S);
+					}
+					else{
+						oldStateOfT->setParent(&S);
+					}
+				}
+				else if(closedContainsT){
+					//T is on CLOSED and if its new f value is less than the old
+					//one, put T on OPEN and reset its parent pointer.
+					if(newIsMinFValue){
+						oldStateOfT->setParent(&S);
+						OPEN.push_back(*oldStateOfT);
+					}
+				}
+				//else{
+				//	cerr << endl << "ERROR: Illegal State - state T was located in the OPEN set and the CLOSED set at the same time" << endl;
+				//	exit(0);
+				//}
 
-  
+				////////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // create the start node and push into list of open nodes
-    n0=new node(start);
-    n0->updatePriority(finish);
-    pq[pqi].push(*n0);
-    open_nodes_map[x][y]=n0->getPriority(); // mark it on the open nodes map
+				//if(closedContainsT){
+				//	continue;
+				//}
+				//int tentative_g_score = 1;
+				//bool tentative_is_better = false;
+				//if(h_function_to_use = 1){
+				//	tentative_g_score = h1(S);
+				//}
+				//else{
+				//	tentative_g_score = h2(S);
+				//}
+				//if(!openContainsT){
+				//	OPEN.push_back(T);
+				//	tentative_is_better = true;
+				//}
+				//else if(tentative_g_score < T.getG()){
+				//	tentative_is_better = true;
+				//}
+				//else{
+				//	tentative_is_better = false;
+				//}
 
-    // A* search
-    while(!pq[pqi].empty())
-    {
-        // get the current node w/ the highest priority
-        // from the list of open nodes
-        n0=new node( pq[pqi].top().getxPos(), pq[pqi].top().getyPos(), 
-                     pq[pqi].top().getLevel(), pq[pqi].top().getPriority());
-
-        x=n0->getxPos(); y=n0->getyPos();
-
-        pq[pqi].pop(); // remove the node from the open list
-        open_nodes_map[x][y]=0;
-        // mark it on the closed nodes map
-        closed_nodes_map[x][y]=1;
-
-        // quit searching when the goal state is reached
-        //if((*n0).estimate(xFinish, yFinish) == 0)
-        if(x==xFinish && y==yFinish) 
-        {
-            // generate the path from finish to start
-            // by following the directions
-            string path="";
-            while(!(x==xStart && y==yStart))
-            {
-                j=dir_map[x][y];
-                c='0'+(j+dir/2)%dir;
-                path=c+path;
-                x+=dx[j];
-                y+=dy[j];
-            }
-
-            // garbage collection
-            delete n0;
-            // empty the leftover nodes
-            while(!pq[pqi].empty()) pq[pqi].pop();           
-            return path;
-        }
-
-        // generate moves (child nodes) in all possible directions
-        for(i=0;i<dir;i++)
-        {
-            xdx=x+dx[i]; ydy=y+dy[i];
-
-            if(!(xdx<0 || xdx>n-1 || ydy<0 || ydy>m-1 || map[xdx][ydy]==1 
-                || closed_nodes_map[xdx][ydy]==1))
-            {
-                // generate a child node
-                m0=new node( xdx, ydy, n0->getLevel(), 
-                             n0->getPriority());
-                m0->nextLevel(i);
-                m0->updatePriority(xFinish, yFinish);
-
-                // if it is not in the open list then add into that
-                if(open_nodes_map[xdx][ydy]==0)
-                {
-                    open_nodes_map[xdx][ydy]=m0->getPriority();
-                    pq[pqi].push(*m0);
-                    // mark its parent node direction
-                    dir_map[xdx][ydy]=(i+dir/2)%dir;
-                }
-                else if(open_nodes_map[xdx][ydy]>m0->getPriority())
-                {
-                    // update the priority info
-                    open_nodes_map[xdx][ydy]=m0->getPriority();
-                    // update the parent direction info
-                    dir_map[xdx][ydy]=(i+dir/2)%dir;
-
-                    // replace the node
-                    // by emptying one pq to the other one
-                    // except the node to be replaced will be ignored
-                    // and the new node will be pushed in instead
-                    while(!(pq[pqi].top().getxPos()==xdx && 
-                           pq[pqi].top().getyPos()==ydy))
-                    {                
-                        pq[1-pqi].push(pq[pqi].top());
-                        pq[pqi].pop();       
-                    }
-                    pq[pqi].pop(); // remove the wanted node
-                    
-                    // empty the larger size pq to the smaller one
-                    if(pq[pqi].size()>pq[1-pqi].size()) pqi=1-pqi;
-                    while(!pq[pqi].empty())
-                    {                
-                        pq[1-pqi].push(pq[pqi].top());
-                        pq[pqi].pop();       
-                    }
-                    pqi=1-pqi;
-                    pq[pqi].push(*m0); // add the better node instead
-                }
-                else delete m0; // garbage collection
-            }
-        }
-        delete n0; // garbage collection
-    }
-    return ""; // no route found
+				//if(tentative_is_better){
+				//	T.setParent(&S);
+				//	T.setG(tentative_g_score);
+				//}
+			}
+		}
+    //6. Go to step 2. 
+	}
+	return false;
 }
-
-
-
-
-
-
-
 
 int main(){
 
+
+
+	int **board;
+	board = new int*[NUM_ROWS_ON_BOARD];
+	for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
+	{
+		board[i] = new int[NUM_COLS_ON_BOARD];
+	}
 	
+	board[0][0] = 1;
+	board[0][1] = 2;
+	board[0][2] = 3;
+
+	board[1][0] = 8;
+	board[1][1] = 0;
+	board[1][2] = 4;
+
+	board[2][0] = 7;
+	board[2][1] = 6;
+	board[2][2] = 5;
+
+	state goal = *new state(board);
 
 	string input;
 
@@ -342,23 +345,24 @@ int main(){
 		if(exit == 'E')
 			return 0;
 		else cin.putback(exit);
-		
-		state state1;
-		cin >> state1;
-		cout << endl << state1 << endl;
 
-		if(numberOfInversions(state1) % 2 == 0)
+		state start;
+		cin >> start;
+		cout << endl << start << endl;
+
+		if(numberOfInversions(start) % 2 == 0)
 		{
 			cout << "No solution exists!" << endl << endl;
 		}
 		else
 		{
-			cout << "A solution exists" << endl << endl;
+			//cout << "A solution exists" << endl << endl;
+			astar(start, goal, 1);
 		}
 
 		cout << "Inital State (input):" << endl;
 		cout << ">>";
-		
+
 		if(cin.peek() == 10)cin.get();
 	}
 

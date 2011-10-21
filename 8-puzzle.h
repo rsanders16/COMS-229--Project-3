@@ -32,7 +32,9 @@ public:
 	*/
 	state(int **bd, state* prnt);
 
-    state();
+    state(int **bd);
+
+	state();
 
 	/**
 	DECONSTRUCTOR:
@@ -40,40 +42,42 @@ public:
 	*/
 	~state();
 
+	void setParent(state* prnt);
+
 	/**
 	FUNCTION: getG()
 	DESCRIPTION:  Returns the class var g
 	RETURN:  The number of moves from the inital state to the current state.
 	*/
-	int getG();
+	int getG() const;
 
 	/**
 	FUNCTION: getBoard()
 	DESCRIPTION:  Returns the class var board
 	RETURN:  // 3x3 configuration of the board.
 	*/
-	int** getBoard();
+	int** getBoard() const;
 
 	/**
 	FUNCTION: getParent()
 	DESCRIPTION:  Returns the class var parent
 	RETURN:  //The state from which the current state is generated with one move.
 	*/
-	state* getParent();
+	state* getParent() const;
 
 	/**
 	FUNCTION: overload < operator
 	DESCRIPTION: Overloads the < operator so that it can be used to test wheather or not 'this' state is less than the paramater otherState.
 	RETURN bool - True if in fact 'this' state is less then otherState
 	*/
-	bool operator< (const state& otherState);
+	bool operator< (const state& otherState) const;
 
 	/**
 	FUNCTION: overload == operator
 	DESCRIPTION: Overloads the == operator so that it can be used to test wheather or not 'this' state is equal to otherState.
 	RETURN bool - True if in fact 'this' state is equal to otherState
 	*/
-	bool operator== (const state& otherState);
+	bool operator== (const state& otherState) const;
 
 	/**
 	FUNCTION: overload operator << 
@@ -135,6 +139,6 @@ htype - The state being evaluated against the goal state.
 RETURN:
 The value of function based on the heuristic type.
 */
-int f(int htype);
+int f(int htype, state& st);
 
 #endif
