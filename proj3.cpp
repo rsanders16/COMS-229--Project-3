@@ -68,6 +68,11 @@ void printPath(state current_state){
 
 	state goal = *new state(board);
 
+	if(current_state == goal && *(current_state.getParent()) == goal){
+		cout << "0 moves in total." << endl << endl;
+		return;
+	}
+
 	while(!(current_state == goal)){
 		cout << current_state;
 		cout << endl;
@@ -76,6 +81,7 @@ void printPath(state current_state){
 		moveCount++;
 		current_state = *current_state.getParent();
 	}
+	cout << goal << endl;
 	cout << moveCount << " moves in total.";
 	cout << endl << endl;
 }
@@ -170,7 +176,7 @@ list<state> neighbor_nodes(state s){
 
 list<state> OPEN = *new list<state>();
 list<state> CLOSED = *new list<state>();
-
+/*
 bool astar(state start, state goal, int h_function_to_use)
 {
 	//1. Put the start state S0 on OPEN.  Let g(S0) = 0 and estimate h(S0).
@@ -184,6 +190,7 @@ bool astar(state start, state goal, int h_function_to_use)
 	}
 	
 	//2. If OPEN is empty, exit with failure.
+	int iterationCount = 0;
 	while(!OPEN.empty()){
 
 		//3. Remove from OPEN and place on CLOSED a state S whose f value is
@@ -217,7 +224,12 @@ bool astar(state start, state goal, int h_function_to_use)
 		//4. If S is the goal state, exit successfully and print out the
 		//entire solution path (step-by-step state transitions)
 		if(S == goal || done){
-			printPath(S);
+			if(S == goal && iterationCount == 0){
+				cout << "0 moves in total." << endl << endl;
+			}
+			else{
+				printPath(S);
+			}
 			return true;
 		}
 
@@ -236,7 +248,9 @@ bool astar(state start, state goal, int h_function_to_use)
 			list<state>::iterator i;
 
 			int childCount = 0;
+			cout << "PARENT: " << endl << S << endl;
 			for(i = neighbors.begin() ; i != neighbors.end() ; ++i){
+				cout << "CHILD: " << endl << *i << endl;
 				state T = *i;
 				state * oldStateOfT;
 			
@@ -300,7 +314,7 @@ bool astar(state start, state goal, int h_function_to_use)
 						CLOSED.remove(T);
 						OPEN.push_back(T);
 						T.setG(S.getG() + 1);
-						T.setParent(oldStateOfT->getParent());
+						T.setParent(&S);
 					}
 				}
 				else{
@@ -308,11 +322,86 @@ bool astar(state start, state goal, int h_function_to_use)
 					exit(0);
 				}
 			}
+			iterationCount++;
 		}
     //6. Go to step 2. 
 	}
 	return false;
 }
+*/
+
+bool astar(state start, state goal, int h_function_to_use){
+	OPEN.push_back(start);
+	start.setG(0);
+	while(!OPEN.empty()){
+		list<state>::iterator i;
+		state S;
+		state minFValueS;
+		for(i = OPEN.begin(), S = *i ; i != OPEN.end(); ++i){
+			S = *i;
+			if(f(h_function_to_use, S) < f(h_function_to_use, minFValueS)){
+				minFValueS = S;
+			}
+		}
+		OPEN.remove(minFValueS);
+		CLOSED.push_back(minFValueS);
+		if(S == goal){
+			printPath(S);
+			return true;	
+		}
+		else{
+			list<state> neighbors = neighbor_nodes(S);
+			list<state>::iterator neighbor_iter;
+			state current_neighbor;
+			state old_value;
+			cout << "PARENT: " <<endl << S << endl << endl;
+			for(neighbor_iter = neighbors.begin() ; neighbor_iter != neighbors.end() ; ++neighbor_iter){
+				cout << "CHILD: " <<endl << *neighbor_iter << endl << endl;
+				
+				current_neighbor = *neighbor_iter;
+				current_neighbor.setParent(&S);
+				
+				
+				list<state>::iterator open_list_iter;
+				bool current_neighbor_is_in_open_list = false;
+				for(open_list_iter = OPEN.begin() ; open_list_iter != OPEN.end() ; ++open_list_iter){
+					if(*open_list_iter == current_neighbor){
+						current_neighbor_is_in_open_list = true;
+						old_value = *open_list_iter;
+					}
+				}
+
+				list<state>::iterator closed_list_iter;
+				bool current_neighbor_is_in_closed_list = false;
+				for(closed_list_iter = CLOSED.begin() ; closed_list_iter != CLOSED.end() ; ++closed_list_iter){
+					if(*closed_list_iter == current_neighbor){
+						current_neighbor_is_in_closed_list = true;
+						old_value = *closed_list_iter;
+					}
+				}
+
+				if(current_neighbor_is_in_open_list == false && current_neighbor_is_in_closed_list == false ){
+					OPEN.push_back(current_neighbor);
+				}
+				else if(current_neighbor_is_in_open_list){
+					if(f(h_function_to_use, current_neighbor) < f(h_function_to_use, old_value)){
+						old_value.setParent(&S);
+					}
+				}
+				else if(current_neighbor_is_in_closed_list){
+					if(f(h_function_to_use, current_neighbor) < f(h_function_to_use, old_value)){
+						old_value.setParent(&S);
+						CLOSED.remove(current_neighbor);
+						OPEN.push_back(current_neighbor);
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+
 
 int main(){
 

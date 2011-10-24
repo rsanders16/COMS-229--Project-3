@@ -137,7 +137,23 @@ DESCRIPTION:  Returns the class var board
 RETURN:  // 3x3 configuration of the board.
 */
 int** state::getBoard() const{
-	return this->board;
+	int ** board;
+	board = new int*[NUM_ROWS_ON_BOARD];
+	for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
+	{
+		board[i] = new int[NUM_COLS_ON_BOARD];
+	}
+
+	board[0][0] = this->board[0][0];
+	board[0][1] = this->board[0][1];
+	board[0][2] = this->board[0][2];
+	board[1][0] = this->board[1][0];
+	board[1][1] = this->board[1][1];
+	board[1][2] = this->board[1][2];
+	board[2][0] = this->board[2][0];
+	board[2][1] = this->board[2][1];
+	board[2][2] = this->board[2][2];
+	return board;
 }
 
 /**
@@ -301,14 +317,14 @@ int h1(state& st){
 	int** board = st.getBoard();
 	int nMismatchedTiles = 0;
 	if(board[0][0] != 1 && board[0][0] != 0)nMismatchedTiles++;
-	if(board[0][1] != 1 && board[0][1] != 0)nMismatchedTiles++;
-	if(board[0][2] != 1 && board[0][2] != 0)nMismatchedTiles++;
-	if(board[1][0] != 1 && board[1][0] != 0)nMismatchedTiles++;
+	if(board[0][1] != 2 && board[0][1] != 0)nMismatchedTiles++;
+	if(board[0][2] != 3 && board[0][2] != 0)nMismatchedTiles++;
+	if(board[1][0] != 8 && board[1][0] != 0)nMismatchedTiles++;
 	//else if(board[1][1] != 1 && board[1][1] != 0)nMismatchedTiles++;
-	if(board[1][2] != 1 && board[1][2] != 0)nMismatchedTiles++;
-	if(board[2][0] != 1 && board[2][0] != 0)nMismatchedTiles++;
-	if(board[2][1] != 1 && board[2][1] != 0)nMismatchedTiles++;
-	if(board[2][2] != 1 && board[2][2] != 0)nMismatchedTiles++;
+	if(board[1][2] != 4 && board[1][2] != 0)nMismatchedTiles++;
+	if(board[2][0] != 7 && board[2][0] != 0)nMismatchedTiles++;
+	if(board[2][1] != 6 && board[2][1] != 0)nMismatchedTiles++;
+	if(board[2][2] != 5 && board[2][2] != 0)nMismatchedTiles++;
 	return nMismatchedTiles;
 }
 
@@ -334,11 +350,11 @@ RETURN:
 The value of function based on the heuristic type.
 */
 int f(int htype, state& st){
-	if(st.getG() == NULL){
+	//if(st.getG() == NULL){
 		//cerr << endl << "ERROR: Null Pointer Argumnet" << endl;
 		//exit(0);
-		return 0;
-	}
+		//return 0;
+	//}
 	if(htype == 1){
 		return st.getG() + h1(st);
 	}
