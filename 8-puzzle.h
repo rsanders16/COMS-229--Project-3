@@ -32,9 +32,9 @@ public:
 	*/
 	state(int **bd, state* prnt);
 
-    state(int **bd);
+    //state(int **bd);
 
-	state();
+	//state();
 
 	state::state(const state& obj);
 
@@ -53,7 +53,7 @@ public:
 	*/
 	int getG() const;
 
-	void setG(int g);
+	//void setG(int g);
 
 	/**
 	FUNCTION: getBoard()
@@ -74,7 +74,7 @@ public:
 	DESCRIPTION: Overloads the < operator so that it can be used to test wheather or not 'this' state is less than the paramater otherState.
 	RETURN bool - True if in fact 'this' state is less then otherState
 	*/
-	bool operator< (const state& otherState) const;
+	//bool operator< (const state& otherState) const;
 
 	/**
 	FUNCTION: overload == operator
@@ -105,7 +105,7 @@ public:
 	*/
 	friend istream& operator>> (istream& istr, state& x); 
 
-	friend state& astar(state& start, state& goal);
+	bool boardIsFull;
 
 private:
 
@@ -114,6 +114,8 @@ private:
 	int **board; // 3x3 configuration of the board. Assume that the square rows are number 0, 1, 2; so are the columns. If the square indexed (i, j) is not occupied by a tile, set board[i][j] to 0. 
 
 	state* parent; //The state from which the current state is generated with one move.
+
+
 
 };
 
@@ -125,7 +127,7 @@ st - The state being evaluated against the goal state.
 RETURN:
 The number of mismatched tiles.
 */
-int h1(state& st);  
+int h1(const state& st);  
 
 /**
 FUNCTION: h2(state&)
@@ -135,7 +137,7 @@ st - The state being evaluated against the goal state.
 RETURN:
 The Manhattan distance.
 */
-int h2(state& st); 
+int h2(const state& st); 
 
 /**
 FUNCTION: f(int)
@@ -145,6 +147,6 @@ htype - The state being evaluated against the goal state.
 RETURN:
 The value of function based on the heuristic type.
 */
-int f(int htype, state& st);
+int f(int htype, const state* st);
 
 #endif
