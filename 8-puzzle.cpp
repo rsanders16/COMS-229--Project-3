@@ -107,11 +107,11 @@ state::state(const state& obj){
 }
 
 state::~state(){
-	for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
-	{
-		delete [] board[i];
-	}
-	delete [] board;
+	//for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
+	//{
+	//	delete [] board[i];
+	//}
+	//delete [] board;
 }
 
 void state::setG(int g){
@@ -264,10 +264,10 @@ RETRUN: The instream used during the execution of this function
 istream& operator>> (istream& istr, state& x){
 	int p1, p2, p3, p4, p5, p6, p7, p8, p9;
 	//cin >> p1 >> p2 >> p3 >> p4 >> p5 >> p6 >> p7 >> p8 >> p9;
-	p1 = 0;
+	p1 = 1;
 	p2 = 2;
 	p3 = 3;
-	p4 = 1;
+	p4 = 0;
 	p5 = 8;
 	p6 = 4;
 	p7 = 7;
@@ -350,11 +350,6 @@ RETURN:
 The value of function based on the heuristic type.
 */
 int f(int htype, state& st){
-	//if(st.getG() == NULL){
-		//cerr << endl << "ERROR: Null Pointer Argumnet" << endl;
-		//exit(0);
-		//return 0;
-	//}
 	if(htype == 1){
 		return st.getG() + h1(st);
 	}

@@ -68,10 +68,10 @@ void printPath(state current_state){
 
 	state goal = *new state(board);
 
-	if(current_state == goal && *(current_state.getParent()) == goal){
-		cout << "0 moves in total." << endl << endl;
-		return;
-	}
+	//if(current_state == goal && *(current_state.getParent()) == *new state()){
+	//	cout << "0 moves in total." << endl << endl;
+	//	return;
+	//}
 
 	while(!(current_state == goal)){
 		cout << current_state;
@@ -126,223 +126,71 @@ list<state> neighbor_nodes(state s){
 	list<state> neighbors = *new list<state>;
 	int** board = s.getBoard();
 	if(board[0][0] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(0,1, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(0,3, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(0,1, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(0,3, board), &s));
 	}
 	else if(board[0][1] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(1,2, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(1,0, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(1,4, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(1,2, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(1,0, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(1,4, board), &s));
 	}
 	else if(board[0][2] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(2,5, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(2,1, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(2,5, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(2,1, board), &s));
 	}
 	else if(board[1][0] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(3,0, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(3,6, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(3,4, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(3,0, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(3,6, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(3,4, board), &s));
 	}
 	else if(board[1][1] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(4,3, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(4,1, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(4,5, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(4,8, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(4,3, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(4,1, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(4,5, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(4,8, board), &s));
 	}
 	else if(board[1][2] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(5,8, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(5,2, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(5,4, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(5,8, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(5,2, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(5,4, board), &s));
 	}
 	else if(board[2][0] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(6,7, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(6,3, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(6,7, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(6,3, board), &s));
 	}
 	else if(board[2][1] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(7,4, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(7,6, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(7,8, board), s.getParent()));
+		neighbors.push_back(*new state(getInitalizedBoard(7,4, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(7,6, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(7,8, board), &s));
 	}
 	else if(board[2][2] == 0){
-		neighbors.push_back(*new state(getInitalizedBoard(8,7, board), s.getParent()));
-		neighbors.push_back(*new state(getInitalizedBoard(8,5, board), s.getParent()));
-	}
-	else{
-		//cerr << endl << "ERROR:  A state had a board that had an illegal state." << endl;
-		//exit(-1);
+		neighbors.push_back(*new state(getInitalizedBoard(8,7, board), &s));
+		neighbors.push_back(*new state(getInitalizedBoard(8,5, board), &s));
 	}
 	return neighbors;
 }
 
 list<state> OPEN = *new list<state>();
 list<state> CLOSED = *new list<state>();
-/*
-bool astar(state start, state goal, int h_function_to_use)
-{
-	//1. Put the start state S0 on OPEN.  Let g(S0) = 0 and estimate h(S0).
-	OPEN.push_back(start);
-	int hOfStart = 0;
-	if(h_function_to_use == 1){
-		hOfStart = h1(start);
-	}
-	else{
-		hOfStart = h2(start);
-	}
-	
-	//2. If OPEN is empty, exit with failure.
-	int iterationCount = 0;
-	while(!OPEN.empty()){
 
-		//3. Remove from OPEN and place on CLOSED a state S whose f value is
-		//   minimum.  If there are several states with the same minimum
-		//   value, arbitrarily remove one; if one is the goal state, then
-		//   remove the goal state.
-		list<state>::iterator i;
-		bool removedGoalState = false;
-		state S;
-		int counter = 0;
-		bool done = false;
-		for(i = OPEN.begin(), S = *i ; i != OPEN.end() && done == false; ++i){
-				S = *i;
-				if(f(h_function_to_use, *i) < f(h_function_to_use, S)){
-					S = *i;
-				}
-				if(*i == goal)
-				{
-					OPEN.remove(S);
-					CLOSED.push_back(S);
-					removedGoalState = true;
-					done = true;
-					continue;
-				}
-		}
-		if(!removedGoalState){
-			OPEN.remove(S);
-			CLOSED.push_back(S);
-		}
-
-		//4. If S is the goal state, exit successfully and print out the
-		//entire solution path (step-by-step state transitions)
-		if(S == goal || done){
-			if(S == goal && iterationCount == 0){
-				cout << "0 moves in total." << endl << endl;
-			}
-			else{
-				printPath(S);
-			}
-			return true;
-		}
-
-		//5. Otherwise, generate S's all possible successor states in one
-		//valid move and set their parent pointers back to S.  For every
-		//successor state T of S:
-				// - Estimate h(T) and compute f(T) = g(T) + h(T) = g(S) + 1 + h(T).
-				// - If T is not already on OPEN or CLOSED, then put it on OPEN. 
-				// - If T is already on OPEN, compare its old and new f values
-				//		and choose the minimum, resetting its parent pointer (along
-				//		the path yielding the lowest g(T)).
-				// - If T is on CLOSED and its new f value is less than the old
-				//		one, put T on OPEN and reset its parent pointer.
-		else{
-			list<state> neighbors = neighbor_nodes(S);
-			list<state>::iterator i;
-
-			int childCount = 0;
-			cout << "PARENT: " << endl << S << endl;
-			for(i = neighbors.begin() ; i != neighbors.end() ; ++i){
-				cout << "CHILD: " << endl << *i << endl;
-				state T = *i;
-				state * oldStateOfT;
-			
-				bool openContainsT = false;
-				list<state>::iterator openIterator;
-				for(openIterator = OPEN.begin(); openIterator != OPEN.end() ; ++openIterator){
-					if(*openIterator == T){
-						openContainsT = true;
-						oldStateOfT = &(*openIterator);
-						break;
-					}
-				}	
-
-				bool closedContainsT = false;
-				list<state>::iterator closedIterator;
-				for(closedIterator = CLOSED.begin(); closedIterator != CLOSED.end() ; ++closedIterator){
-					if(*closedIterator == T){
-						closedContainsT = true;
-						oldStateOfT = &(*closedIterator);
-						break;
-					}
-				}
-
-				//int newGValueOfT = 0;
-				//int oldGValueOfT = 0;
-				//bool newIsMinGValue = false;
-				//
-				//
-
-				//
-
-
-				//if(closedContainsT || openContainsT){
-				//	newGValueOfT = S.getG() + 1;
-				//	oldGValueOfT = T.getG();
-				//	
-				//	if(newGValueOfT < oldGValueOfT){
-				//		newIsMinGValue = true;
-				//	}
-				//}
-
-				/////////////////////////////////////////////////////////////////////////////////////////////
-				/////////////////////////////////////////////////////////////////////////////////////////////
-
-				if(openContainsT == false && closedContainsT == false){
-					OPEN.push_back(T);
-				}
-				else if(openContainsT){
-					//T is already on OPEN, compare its old and new f values
-					//and choose the minimum, resetting its parent pointer (along
-					//the path yielding the lowest g(T)).
-					if(S.getG() + 1 < T.getG()){
-						T.setG(S.getG() + 1);
-						T.setParent(oldStateOfT->getParent());
-					}
-				}
-				else if(closedContainsT){
-					//T is on CLOSED and if its new f value is less than the old
-					//one, put T on OPEN and reset its parent pointer.
-					if(S.getG() + 1 < T.getG()){
-						CLOSED.remove(T);
-						OPEN.push_back(T);
-						T.setG(S.getG() + 1);
-						T.setParent(&S);
-					}
-				}
-				else{
-					cerr << endl << "ERROR: Illegal State - state T was located in the OPEN set and the CLOSED set at the same time" << endl;
-					exit(0);
-				}
-			}
-			iterationCount++;
-		}
-    //6. Go to step 2. 
-	}
-	return false;
-}
-*/
 
 bool astar(state start, state goal, int h_function_to_use){
 	OPEN.push_back(start);
 	start.setG(0);
 	while(!OPEN.empty()){
 		list<state>::iterator i;
-		state S;
-		state minFValueS;
+
+		//HERE IS WHERE ERROR OCCURES
+		state S = state();
+		state minFValueS = state();
+		minFValueS.setG(-1);
 		for(i = OPEN.begin(), S = *i ; i != OPEN.end(); ++i){
 			S = *i;
-			if(f(h_function_to_use, S) < f(h_function_to_use, minFValueS)){
+			if(f(h_function_to_use, S) < f(h_function_to_use, minFValueS) || minFValueS.getG() == -1){
 				minFValueS = S;
 			}
 		}
+		S = minFValueS;
 		OPEN.remove(minFValueS);
 		CLOSED.push_back(minFValueS);
 		if(S == goal){
@@ -357,6 +205,7 @@ bool astar(state start, state goal, int h_function_to_use){
 			cout << "PARENT: " <<endl << S << endl << endl;
 			for(neighbor_iter = neighbors.begin() ; neighbor_iter != neighbors.end() ; ++neighbor_iter){
 				cout << "CHILD: " <<endl << *neighbor_iter << endl << endl;
+				
 				
 				current_neighbor = *neighbor_iter;
 				current_neighbor.setParent(&S);
