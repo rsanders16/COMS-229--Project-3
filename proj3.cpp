@@ -6,6 +6,13 @@
 
 using namespace std;
 
+
+
+list<state*> OPEN = *new list<state*>();
+list<state*> CLOSED = *new list<state*>();
+
+
+
 int numberOfInversions(state& x)
 {
 	int num = 0;
@@ -43,6 +50,9 @@ bool isParent(state& st){
 	return true;
 }
 
+
+
+
 void printPath(state* current_state, state* goal){
 
 	
@@ -65,10 +75,19 @@ void printPath(state* current_state, state* goal){
 	cout << moveCount << " moves in total.";
 	cout << endl << endl;
 
+	list<state*>::iterator delIter;
+
+	
+	//for(int i = 0 ; i < OPEN.size() ; i++){
+	//	OPEN.pop_back();
+	//}
+	//for(int i = 0 ; i < CLOSED.size() ; i++){
+	//	CLOSED.pop_back();
+	//}
 		
-	//list<state*>::iterator deleteiter;
-	//deleteiter = OPEN.erase(OPEN.begin(),OPEN.end());
-	//CLOSED.erase(CLOSED.begin(), CLOSED.end());
+	list<state*>::iterator deleteiter;
+	deleteiter = OPEN.erase(OPEN.begin(),OPEN.end());
+	CLOSED.erase(CLOSED.begin(), CLOSED.end());
 }
 
 int** getInitalizedBoard(int p1, int p2, int** oldBoard){
@@ -155,8 +174,7 @@ list<state*> neighbor_nodes(state* s){
 	return neighbors;
 }
 
-list<state*> OPEN = *new list<state*>();
-list<state*> CLOSED = *new list<state*>();
+
 
 
 bool astar(state* start, state* goal, int h_function_to_use){
