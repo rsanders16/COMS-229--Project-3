@@ -6,12 +6,8 @@
 
 using namespace std;
 
-
-
 list<state*> OPEN = *new list<state*>();
 list<state*> CLOSED = *new list<state*>();
-
-
 
 int numberOfInversions(state& x)
 {
