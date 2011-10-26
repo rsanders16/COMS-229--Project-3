@@ -171,7 +171,7 @@ int** getInitalizedBoard(int p1, int p2, int** oldBoard){
 	return newBoard;
 }
 
-list<state*> neighbor_nodes(state* s){
+list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 	list<state*> neighbors = *new list<state*>;
 	int** board = s->getBoard();
 	if(board[0][0] == 0){
@@ -216,6 +216,8 @@ list<state*> neighbor_nodes(state* s){
 		neighbors.push_back(&(*new state(getInitalizedBoard(8,7, board), s)));
 		neighbors.push_back(&(*new state(getInitalizedBoard(8,5, board), s)));
 	}
+
+	if(allowDoubleMoves);
 	return neighbors;
 }
 
@@ -224,6 +226,8 @@ list<state*> neighbor_nodes(state* s){
 
 bool astar(state* start, state* goal, int h_function_to_use){
 	
+	
+
 	OPEN.push_back(&*start);
 
 	while(!OPEN.empty()){
@@ -247,7 +251,7 @@ bool astar(state* start, state* goal, int h_function_to_use){
 			return true;	
 		}
 		else{
-			list<state*> neighbors = neighbor_nodes(S);
+			list<state*> neighbors = neighbor_nodes(S,false);
 			list<state*>::iterator neighbor_iter;
 
 			//cout << "PARENT: " <<endl << *S << endl << endl;
@@ -357,6 +361,8 @@ int main(){
 			}
 			else {
 				astar(&start, &goal, 1);
+				cout << "Using manhattan distance:" << endl << endl;
+				astar(&start, &goal, 2);
 			}
 
 		}

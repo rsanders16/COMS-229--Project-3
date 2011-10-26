@@ -315,8 +315,270 @@ RETURN:
 The Manhattan distance.
 */
 int h2(const state& st){
-		cerr << endl << "ERROR:  Function h2() has not been implemented yet." << endl;
-		exit(-1);
+	int** board = st.getBoard();
+	int sum = 0;
+	if(board[0][0] != 1){
+		if(board[0][1] == 1){
+			sum += 0;
+		}
+		else if(board[0][1] == 1){
+			sum += 1;
+		}
+		else if(board[0][2] == 1){
+			sum += 2;
+		}
+		else if(board[1][0] == 1){
+			sum += 1;
+		}
+		else if(board[1][1] == 1){
+			sum += 2;
+		}
+		else if(board[1][2] == 1){
+			sum += 3;
+		}
+		else if(board[2][0] == 1){
+			sum += 2;
+		}
+		else if(board[2][1] == 1){
+			sum += 3;
+		}
+		else if(board[2][2] == 1){
+			sum += 4;
+		}
+	}
+	if(board[0][1] != 2){
+		if(board[0][0] == 2){
+			sum += 1;
+		}
+		else if(board[0][1] == 2){
+			sum += 0;
+		}
+		else if(board[0][2] == 2){
+			sum += 1;
+		}
+		else if(board[1][0] == 2){
+			sum += 2;
+		}
+		else if(board[1][1] == 2){
+			sum += 1;
+		}
+		else if(board[1][2] == 2){
+			sum += 2;
+		}
+		else if(board[2][0] == 2){
+			sum += 3;
+		}
+		else if(board[2][1] == 2){
+			sum += 2;
+		}
+		else if(board[2][2] == 2){
+			sum += 3;
+		}
+	}
+	if(board[0][2] != 3){
+		if(board[0][0] == 3){
+			sum += 2;
+		}
+		else if(board[0][1] == 3){
+			sum += 1;
+		}
+		else if(board[0][2] == 3){
+			sum += 0;
+		}
+		else if(board[1][0] == 3){
+			sum += 3;
+		}
+		else if(board[1][1] == 3){
+			sum += 2;
+		}
+		else if(board[1][2] == 3){
+			sum += 1;
+		}
+		else if(board[2][0] == 3){
+			sum += 4;
+		}
+		else if(board[2][1] == 3){
+			sum += 3;
+		}
+		else if(board[2][2] == 3){
+			sum += 2;
+		}
+	}
+	if(board[1][0] != 8){
+		if(board[0][0] == 8){
+			sum += 1;
+		}
+		else if(board[0][1] == 8){
+			sum += 2;
+		}
+		else if(board[0][2] == 8){
+			sum += 3;
+		}
+		else if(board[1][0] == 8){
+			sum += 0;
+		}
+		else if(board[1][1] == 8){
+			sum += 1;
+		}
+		else if(board[1][2] == 8){
+			sum += 2;
+		}
+		else if(board[2][0] == 8){
+			sum += 1;
+		}
+		else if(board[2][1] == 8){
+			sum += 2;
+		}
+		else if(board[2][2] == 8){
+			sum += 3;
+		}
+	}
+	//if(board[1][2] != 0){
+	//	if(board[0][0] == 4){
+	//		sum += 2;
+	//	}
+	//	else if(board[0][1] == 4){
+	//		sum += 1;
+	//	}
+	//	else if(board[0][2] == 4){
+	//		sum += 2;
+	//	}
+	//	else if(board[1][0] == 4){
+	//		sum += 1;
+	//	}
+	//	else if(board[1][1] == 4){
+	//		sum += 0;
+	//	}
+	//	else if(board[1][2] == 4){
+	//		sum += 1;
+	//	}
+	//	else if(board[2][0] == 4){
+	//		sum += 2;
+	//	}
+	//	else if(board[2][1] == 4){
+	//		sum += 1;
+	//	}
+	//	else if(board[2][2] == 4){
+	//		sum += 2;
+	//	}
+	//}
+	if(board[1][2] != 4){
+		if(board[0][0] == 4){
+			sum += 3;
+		}
+		else if(board[0][1] == 4){
+			sum += 2;
+		}
+		else if(board[0][2] == 4){
+			sum += 1;
+		}
+		else if(board[1][0] == 4){
+			sum += 2;
+		}
+		else if(board[1][1] == 4){
+			sum += 1;
+		}
+		else if(board[1][2] == 4){
+			sum += 0;
+		}
+		else if(board[2][0] == 4){
+			sum += 3;
+		}
+		else if(board[2][1] == 4){
+			sum += 2;
+		}
+		else if(board[2][2] == 4){
+			sum += 1;
+		}
+	}
+	if(board[2][0] != 7){
+		if(board[0][0] == 7){
+			sum += 2;
+		}
+		else if(board[0][1] == 7){
+			sum += 3;
+		}
+		else if(board[0][2] == 7){
+			sum += 4;
+		}
+		else if(board[1][0] == 7){
+			sum += 1;
+		}
+		else if(board[1][1] == 7){
+			sum += 2;
+		}
+		else if(board[1][2] == 7){
+			sum += 3;
+		}
+		else if(board[2][0] == 7){
+			sum += 0;
+		}
+		else if(board[2][1] == 7){
+			sum += 1;
+		}
+		else if(board[2][2] == 7){
+			sum += 2;
+		}
+	}
+	if(board[2][1] != 6){
+		if(board[0][0] == 6){
+			sum += 3;
+		}
+		else if(board[0][1] == 6){
+			sum += 2;
+		}
+		else if(board[0][2] == 6){
+			sum += 3;
+		}
+		else if(board[1][0] == 6){
+			sum += 2;
+		}
+		else if(board[1][1] == 6){
+			sum += 1;
+		}
+		else if(board[1][2] == 6){
+			sum += 2;
+		}
+		else if(board[2][0] == 6){
+			sum += 1;
+		}
+		else if(board[2][1] == 6){
+			sum += 0;
+		}
+		else if(board[2][2] == 6){
+			sum += 1;
+		}
+	}
+	if(board[2][2] != 5){
+		if(board[0][0] == 5){
+			sum += 4;
+		}
+		else if(board[0][1] == 5){
+			sum += 3;
+		}
+		else if(board[0][2] == 5){
+			sum += 2;
+		}
+		else if(board[1][0] == 5){
+			sum += 3;
+		}
+		else if(board[1][1] == 5){
+			sum += 2;
+		}
+		else if(board[1][2] == 5){
+			sum += 1;
+		}
+		else if(board[2][0] == 5){
+			sum += 2;
+		}
+		else if(board[2][1] == 5){
+			sum += 1;
+		}
+		else if(board[2][2] == 5){
+			sum += 0;
+		}
+	}
+	return sum;
 } 
 
 /**
