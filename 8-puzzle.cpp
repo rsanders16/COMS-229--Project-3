@@ -255,11 +255,11 @@ istream& operator>> (istream& istr, state& x){
 	p2 = 8;
 	p3 = 3;
 	p4 = 1;
-	p5 = 0;
+	p5 = 6;
 	p6 = 4;
 	p7 = 7;
-	p8 = 6;
-	p9 = 5;
+	p8 = 5;
+	p9 = 0;
 
 	int **board;
 	board = new int*[NUM_ROWS_ON_BOARD];
@@ -306,7 +306,6 @@ int h1(const state& st){
 	if(board[0][1] != 2 && board[0][1] != 0)nMismatchedTiles++;
 	if(board[0][2] != 3 && board[0][2] != 0)nMismatchedTiles++;
 	if(board[1][0] != 8 && board[1][0] != 0)nMismatchedTiles++;
-	//else if(board[1][1] != 1 && board[1][1] != 0)nMismatchedTiles++;
 	if(board[1][2] != 4 && board[1][2] != 0)nMismatchedTiles++;
 	if(board[2][0] != 7 && board[2][0] != 0)nMismatchedTiles++;
 	if(board[2][1] != 6 && board[2][1] != 0)nMismatchedTiles++;
