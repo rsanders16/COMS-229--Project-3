@@ -105,7 +105,7 @@ public:
 	*/
 	friend istream& operator>> (istream& istr, state& x); 
 
-	bool boardIsFull;
+	
 
 private:
 
@@ -115,7 +115,7 @@ private:
 
 	state* parent; //The state from which the current state is generated with one move.
 
-
+	bool boardMemoryAllocated;
 
 };
 

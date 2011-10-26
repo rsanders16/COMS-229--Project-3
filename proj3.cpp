@@ -82,6 +82,9 @@ void printPath(state* current_state, state* goal){
 		else if(pathStack.top().getBoard()[1][0] == 0)curPosOf0 = 3;
 		else if(pathStack.top().getBoard()[1][1] == 0)curPosOf0 = 4;
 		else if(pathStack.top().getBoard()[1][2] == 0)curPosOf0 = 5;
+
+
+
 		else if(pathStack.top().getBoard()[2][0] == 0)curPosOf0 = 6;
 		else if(pathStack.top().getBoard()[2][1] == 0)curPosOf0 = 7;
 		else if(pathStack.top().getBoard()[2][2] == 0)curPosOf0 = 8;

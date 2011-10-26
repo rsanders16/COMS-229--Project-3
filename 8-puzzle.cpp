@@ -11,27 +11,25 @@ sate - A pointer to the boards parent state
 */
 state::state(int **bd, state* prnt){
 	if(bd == NULL){
-		this->boardIsFull = false;
+		this->boardMemoryAllocated = false;
 		return;
 	}
+	
 	this->board = new int*[NUM_ROWS_ON_BOARD];
 	for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
 	{
 		this->board[i] = new int[NUM_COLS_ON_BOARD];
 	}
-
 	this->board[0][0] = bd[0][0];
 	this->board[0][1] = bd[0][1];
 	this->board[0][2] = bd[0][2];
-
 	this->board[1][0] = bd[1][0];
 	this->board[1][1] = bd[1][1];
 	this->board[1][2] = bd[1][2];
-
 	this->board[2][0] = bd[2][0];
 	this->board[2][1] = bd[2][1];
 	this->board[2][2] = bd[2][2];
-	this->boardIsFull = true;
+	this->boardMemoryAllocated = true;
 	
 	if(prnt == NULL){
 		this->g = 0;
@@ -45,13 +43,12 @@ state::state(int **bd, state* prnt){
 state::state(const state& obj){
 	this->g = obj.g;
 	this->parent = obj.parent;
-	if(obj.boardIsFull == true){
+	if(obj.boardMemoryAllocated == true){
 			this->board = new int*[NUM_ROWS_ON_BOARD];
 			for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
 			{
 				this->board[i] = new int[NUM_COLS_ON_BOARD];
 			}
-
 			this->board[0][0] = obj.getBoard()[0][0];
 			this->board[0][1] = obj.getBoard()[0][1];
 			this->board[0][2] = obj.getBoard()[0][2];
@@ -62,21 +59,17 @@ state::state(const state& obj){
 			this->board[2][1] = obj.getBoard()[2][1];
 			this->board[2][2] = obj.getBoard()[2][2];
 	}
-
-
 }
 
 state::~state(){
-	for(int i = 0; i < 3; i++){
-		delete[] board[i];
+	if(this->boardMemoryAllocated){
+		for(int i = 0; i < 3; i++){
+			delete[] board[i];
+		}
+		delete[] board;
 	}
-	delete[] board;
 }
 
-//void state::setG(int g){
-//	this->g = g;
-//}
-//
 void state::setParent(state* prnt){
 	this->parent = prnt;
 }
@@ -113,7 +106,7 @@ int** state::getBoard() const{
 	//board[2][1] = this->board[2][1];
 	//board[2][2] = this->board[2][2];
 	//return board;
-	if(this->boardIsFull == false){
+	if(this->boardMemoryAllocated == false){
 		int ** boardX = new int*[NUM_ROWS_ON_BOARD];
 		for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
 		{
@@ -162,7 +155,7 @@ bool state::operator== (const state& otherState) const{
 	//if(otherState.getParent() == NULL) return false;
 	//if(this->getG() != otherState.getG()) return false;
 	//if(this->getParent() != this->getParent()) return false;
-	if(otherState.boardIsFull == false) return false;
+	if(otherState.boardMemoryAllocated == false) return false;
 	if(this->getBoard()[0][0] != otherState.getBoard()[0][0])return false;
 	if(this->getBoard()[0][1] != otherState.getBoard()[0][1])return false;
 	if(this->getBoard()[0][2] != otherState.getBoard()[0][2])return false;
@@ -180,7 +173,7 @@ if(this != &otherState)
 	{
 		g = otherState.g;
 		parent = otherState.parent;
-		if(otherState.boardIsFull && this->boardIsFull){
+		if(otherState.boardMemoryAllocated && this->boardMemoryAllocated){
 			board = new int*[3];
 			for(int i = 0 ; i < 3; i++)
 			{
@@ -250,16 +243,16 @@ RETRUN: The instream used during the execution of this function
 */
 istream& operator>> (istream& istr, state& x){
 	int p1, p2, p3, p4, p5, p6, p7, p8, p9;
-	//cin >> p1 >> p2 >> p3 >> p4 >> p5 >> p6 >> p7 >> p8 >> p9;
-	p1 = 2;
-	p2 = 8;
-	p3 = 3;
-	p4 = 1;
-	p5 = 6;
-	p6 = 4;
-	p7 = 7;
-	p8 = 5;
-	p9 = 0;
+	cin >> p1 >> p2 >> p3 >> p4 >> p5 >> p6 >> p7 >> p8 >> p9;
+	//p1 = 2;
+	//p2 = 8;
+	//p3 = 3;
+	//p4 = 1;
+	//p5 = 6;
+	//p6 = 4;
+	//p7 = 7;
+	//p8 = 5;
+	//p9 = 0;
 
 	int **board;
 	board = new int*[NUM_ROWS_ON_BOARD];
@@ -285,7 +278,7 @@ istream& operator>> (istream& istr, state& x){
 	x.board = board;
 	x.parent= NULL;
 	x.g = -1;
-	x.boardIsFull = true;
+	x.boardMemoryAllocated = true;
 
 	return istr;
 } 
