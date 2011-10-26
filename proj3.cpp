@@ -59,28 +59,74 @@ void printPath(state* current_state, state* goal){
 		current_state = current_state->getParent();
 		moveCount++;
 	}
+	int lastPosOf0 = 0;
+	int curPosOf0 = 0;
+	if(current_state->getBoard()[0][0] == 0)lastPosOf0 = 0;
+	else if(current_state->getBoard()[0][1] == 0)lastPosOf0 = 1;
+	else if(current_state->getBoard()[0][2] == 0)lastPosOf0 = 2;
+	else if(current_state->getBoard()[1][0] == 0)lastPosOf0 = 3;
+	else if(current_state->getBoard()[1][1] == 0)lastPosOf0 = 4;
+	else if(current_state->getBoard()[1][2] == 0)lastPosOf0 = 5;
+	else if(current_state->getBoard()[2][0] == 0)lastPosOf0 = 6;
+	else if(current_state->getBoard()[2][1] == 0)lastPosOf0 = 7;
+	else if(current_state->getBoard()[2][2] == 0)lastPosOf0 = 8;
+
 	for(int i = 0 ; i < moveCount ; i++){
-		cout << endl;
+		//////////////////////////////////////////////////////////////////////////////////////////////
+		///START OF MOVE PRINTER
+		///LEFT, RIGHT, UP, or DOWN, will be printed out depending on what kind of move took place
+		//////////////////////////////////////////////////////////////////////////////////////////////
+		if(pathStack.top().getBoard()[0][0] == 0)curPosOf0 = 0;
+		else if(pathStack.top().getBoard()[0][1] == 0)curPosOf0 = 1;
+		else if(pathStack.top().getBoard()[0][2] == 0)curPosOf0 = 2;
+		else if(pathStack.top().getBoard()[1][0] == 0)curPosOf0 = 3;
+		else if(pathStack.top().getBoard()[1][1] == 0)curPosOf0 = 4;
+		else if(pathStack.top().getBoard()[1][2] == 0)curPosOf0 = 5;
+		else if(pathStack.top().getBoard()[2][0] == 0)curPosOf0 = 6;
+		else if(pathStack.top().getBoard()[2][1] == 0)curPosOf0 = 7;
+		else if(pathStack.top().getBoard()[2][2] == 0)curPosOf0 = 8;
+		if(curPosOf0 < lastPosOf0){
+			if(curPosOf0 == lastPosOf0 - 1){
+				cout << "RIGHT";
+			}
+			else{
+				cout << "DOWN";
+			}
+		}
+		else{
+			if(curPosOf0 == lastPosOf0 + 1){
+				cout << "LEFT";
+			}
+			else{
+				cout << "UP";
+			}
+		}
+		cout << endl << endl;
+		if(pathStack.top().getBoard()[0][0] == 0)lastPosOf0 = 0;
+		else if(pathStack.top().getBoard()[0][0] == 0)lastPosOf0 = 0;
+		else if(pathStack.top().getBoard()[0][1] == 0)lastPosOf0 = 1;
+		else if(pathStack.top().getBoard()[0][2] == 0)lastPosOf0 = 2;
+		else if(pathStack.top().getBoard()[1][0] == 0)lastPosOf0 = 3;
+		else if(pathStack.top().getBoard()[1][1] == 0)lastPosOf0 = 4;
+		else if(pathStack.top().getBoard()[1][2] == 0)lastPosOf0 = 5;
+		else if(pathStack.top().getBoard()[2][0] == 0)lastPosOf0 = 6;
+		else if(pathStack.top().getBoard()[2][1] == 0)lastPosOf0 = 7;
+		else if(pathStack.top().getBoard()[2][2] == 0)lastPosOf0 = 8;
+		//////////////////////////////////////////////////////////////////////////////////////////////
+		///END OF MOVE PRINTER
+		//////////////////////////////////////////////////////////////////////////////////////////////
+
 		cout << pathStack.top();
 		cout << endl;
 		pathStack.pop();
 
 	}
-	
-	//cout << *goal << endl;
+
 	cout << moveCount << " moves in total.";
 	cout << endl << endl;
 
+	//DELETION OF CURRENT LIST
 	list<state*>::iterator delIter;
-
-	
-	//for(int i = 0 ; i < OPEN.size() ; i++){
-	//	OPEN.pop_back();
-	//}
-	//for(int i = 0 ; i < CLOSED.size() ; i++){
-	//	CLOSED.pop_back();
-	//}
-		
 	list<state*>::iterator deleteiter;
 	deleteiter = OPEN.erase(OPEN.begin(),OPEN.end());
 	CLOSED.erase(CLOSED.begin(), CLOSED.end());
