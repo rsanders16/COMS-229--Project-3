@@ -30,7 +30,7 @@ public:
 	bd - A pointer the board to be instantiated
 	sate - A pointer to the boards parent state
 	*/
-	state(int **bd, state* prnt);
+	state(int **bd, state* prnt, char* move = "");
 
     //state(int **bd);
 
@@ -68,6 +68,8 @@ public:
 	RETURN:  //The state from which the current state is generated with one move.
 	*/
 	state* getParent() const;
+
+	char* getMove() const;
 
 	/**
 	FUNCTION: overload < operator
@@ -116,6 +118,8 @@ private:
 	state* parent; //The state from which the current state is generated with one move.
 
 	bool boardMemoryAllocated;
+
+	char* move;
 
 };
 
