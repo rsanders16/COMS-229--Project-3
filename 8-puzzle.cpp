@@ -9,7 +9,7 @@ PARAMS:
 bd - A pointer the board to be instantiated
 sate - A pointer to the boards parent state
 */
-state::state(int **bd, state* prnt){
+state::state(int **bd, state* prnt, char * move){
 	if(bd == NULL){
 		this->boardMemoryAllocated = false;
 		return;
@@ -36,6 +36,7 @@ state::state(int **bd, state* prnt){
 		return;
 	}
 	
+	this->move = move;
 	this->g = prnt->getG() + 1;
 	this->parent = prnt;
 }
@@ -58,6 +59,7 @@ state::state(const state& obj){
 			this->board[2][0] = obj.getBoard()[2][0];
 			this->board[2][1] = obj.getBoard()[2][1];
 			this->board[2][2] = obj.getBoard()[2][2];
+			this->move = obj.move;
 	}
 }
 
@@ -81,6 +83,10 @@ RETURN:  The number of moves from the inital state to the current state.
 */
 int state::getG() const{
 	return this->g;
+}
+
+char* state::getMove() const{
+	return this->move;
 }
 
 /**
@@ -171,6 +177,7 @@ bool state::operator== (const state& otherState) const{
 state& state::operator= (const state& otherState){
 if(this != &otherState)
 	{
+		
 		g = otherState.g;
 		parent = otherState.parent;
 		if(otherState.boardMemoryAllocated && this->boardMemoryAllocated){
@@ -188,6 +195,7 @@ if(this != &otherState)
 			board[2][0] = otherState.getBoard()[2][0];
 			board[2][1] = otherState.getBoard()[2][1];
 			board[2][2] = otherState.getBoard()[2][2];
+			move = otherState.getMove();
 		}
 		//state newState = *new state(otherState.getBoard(), otherState.getParent());
 		//newState.setG(otherState.getG());
