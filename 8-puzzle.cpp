@@ -433,32 +433,32 @@ int h2(const state& st){
 			sum += 3;
 		}
 	}
-	//if(board[1][2] != 0){
-	//	if(board[0][0] == 4){
+	//if(board[1][1] != 0){
+	//	if(board[0][0] == 0){
 	//		sum += 2;
 	//	}
-	//	else if(board[0][1] == 4){
+	//	else if(board[0][1] == 0){
 	//		sum += 1;
 	//	}
-	//	else if(board[0][2] == 4){
+	//	else if(board[0][2] == 0){
 	//		sum += 2;
 	//	}
-	//	else if(board[1][0] == 4){
+	//	else if(board[1][0] == 0){
 	//		sum += 1;
 	//	}
-	//	else if(board[1][1] == 4){
+	//	else if(board[1][1] == 0){
 	//		sum += 0;
 	//	}
-	//	else if(board[1][2] == 4){
+	//	else if(board[1][2] == 0){
 	//		sum += 1;
 	//	}
-	//	else if(board[2][0] == 4){
+	//	else if(board[2][0] == 0){
 	//		sum += 2;
 	//	}
-	//	else if(board[2][1] == 4){
+	//	else if(board[2][1] == 0){
 	//		sum += 1;
 	//	}
-	//	else if(board[2][2] == 4){
+	//	else if(board[2][2] == 0){
 	//		sum += 2;
 	//	}
 	//}

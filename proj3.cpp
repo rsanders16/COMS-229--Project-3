@@ -199,57 +199,7 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 		neighbors.push_back(&(*new state(getInitalizedBoard(0,3, board), s)));
 		if(allowDoubleMoves){
 
-				newBoard[0][0] = board[0][1];
-				newBoard[0][1] = board[0][2];
-				newBoard[0][2] = 0;
-
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[1][2];
-
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s)));
-
-				newBoard[0][0] = board[1][0];
-				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = board[0][2];
-
-				newBoard[1][0] = board[2][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[1][2];
-
-				newBoard[2][0] = 0;
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s)));
-		}
-	}
-	else if(board[0][1] == 0){
-		neighbors.push_back(&(*new state(getInitalizedBoard(1,2, board), s)));
-		neighbors.push_back(&(*new state(getInitalizedBoard(1,0, board), s)));
-		neighbors.push_back(&(*new state(getInitalizedBoard(1,4, board), s)));
-		if(allowDoubleMoves){
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[1][1];
-				newBoard[0][2] = board[0][2];
-
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[2][1];
-				newBoard[1][2] = board[1][2];
-
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = 0;
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s)));
-		}
-	}
-	else if(board[0][2] == 0){
-		neighbors.push_back(&(*new state(getInitalizedBoard(2,5, board), s)));
-		neighbors.push_back(&(*new state(getInitalizedBoard(2,1, board), s)));
-		if(allowDoubleMoves){
-				newBoard[0][0] = 0;
+				newBoard[0][0] = board[0][2];
 				newBoard[0][1] = board[0][0];
 				newBoard[0][2] = board[0][1];
 
@@ -272,7 +222,57 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 
 				newBoard[2][0] = board[2][0];
 				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = 0;
+				newBoard[2][2] = board[0][2];
+				neighbors.push_back(&(*new state(newBoard, s)));
+		}
+	}
+	else if(board[0][1] == 0){
+		neighbors.push_back(&(*new state(getInitalizedBoard(1,2, board), s)));
+		neighbors.push_back(&(*new state(getInitalizedBoard(1,0, board), s)));
+		neighbors.push_back(&(*new state(getInitalizedBoard(1,4, board), s)));
+		if(allowDoubleMoves){
+				newBoard[0][0] = board[0][0];
+				newBoard[0][1] = board[1][1];
+				newBoard[0][2] = board[0][2];
+
+				newBoard[1][0] = board[1][0];
+				newBoard[1][1] = board[2][1];
+				newBoard[1][2] = board[1][2];
+
+				newBoard[2][0] = board[2][0];
+				newBoard[2][1] = board[0][1];
+				newBoard[2][2] = board[2][2];
+				neighbors.push_back(&(*new state(newBoard, s)));
+		}
+	}
+	else if(board[0][2] == 0){
+		neighbors.push_back(&(*new state(getInitalizedBoard(2,5, board), s)));
+		neighbors.push_back(&(*new state(getInitalizedBoard(2,1, board), s)));
+		if(allowDoubleMoves){
+				newBoard[0][0] = board[0][2];
+				newBoard[0][1] = board[0][0];
+				newBoard[0][2] = board[0][1];
+
+				newBoard[1][0] = board[1][0];
+				newBoard[1][1] = board[1][1];
+				newBoard[1][2] = board[1][2];
+
+				newBoard[2][0] = board[2][0];
+				newBoard[2][1] = board[2][1];
+				newBoard[2][2] = board[2][2];
+				neighbors.push_back(&(*new state(newBoard, s)));
+
+				newBoard[0][0] = board[0][0];
+				newBoard[0][1] = board[0][1];
+				newBoard[0][2] = board[1][2];
+
+				newBoard[1][0] = board[1][0];
+				newBoard[1][1] = board[1][1];
+				newBoard[1][2] = board[2][2];
+
+				newBoard[2][0] = board[2][0];
+				newBoard[2][1] = board[2][1];
+				newBoard[2][2] = board[0][2];
 				neighbors.push_back(&(*new state(newBoard, s)));
 		}
 	}
@@ -287,7 +287,7 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 
 				newBoard[1][0] = board[1][1];
 				newBoard[1][1] = board[1][2];
-				newBoard[1][2] = 0;
+				newBoard[1][2] = board[1][0];
 
 				newBoard[2][0] = board[2][0];
 				newBoard[2][1] = board[2][1];
@@ -310,8 +310,8 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 				newBoard[0][1] = board[0][1];
 				newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = 0;
-				newBoard[1][1] = board[0][1];
+				newBoard[1][0] = board[1][2];
+				newBoard[1][1] = board[1][0];
 				newBoard[1][2] = board[1][1];
 
 				newBoard[2][0] = board[2][0];
@@ -324,7 +324,7 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 		neighbors.push_back(&(*new state(getInitalizedBoard(6,7, board), s)));
 		neighbors.push_back(&(*new state(getInitalizedBoard(6,3, board), s)));
 		if(allowDoubleMoves){
-				newBoard[0][0] = 0;
+				newBoard[0][0] = board[2][0];
 				newBoard[0][1] = board[0][1];
 				newBoard[0][2] = board[0][2];
 
@@ -347,7 +347,7 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 
 				newBoard[2][0] = board[2][1];
 				newBoard[2][1] = board[2][2];
-				newBoard[2][2] = 0;
+				newBoard[2][2] = board[2][0];
 				neighbors.push_back(&(*new state(newBoard, s)));
 		}
 	}
@@ -357,7 +357,7 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 		neighbors.push_back(&(*new state(getInitalizedBoard(7,8, board), s)));
 		if(allowDoubleMoves){
 				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = 0;
+				newBoard[0][1] = board[2][1];
 				newBoard[0][2] = board[0][2];
 
 				newBoard[1][0] = board[1][0];
@@ -382,14 +382,14 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 				newBoard[1][1] = board[1][1];
 				newBoard[1][2] = board[1][2];
 
-				newBoard[2][0] = 0;
+				newBoard[2][0] = board[2][2];
 				newBoard[2][1] = board[2][0];
 				newBoard[2][2] = board[2][1];
 				neighbors.push_back(&(*new state(newBoard, s)));
 								
 				newBoard[0][0] = board[0][0];
 				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = 0;
+				newBoard[0][2] = board[2][2];
 
 				newBoard[1][0] = board[1][0];
 				newBoard[1][1] = board[1][1];
@@ -550,11 +550,11 @@ int main(){
 			}
 			else {
 				//cout << "Using h1:" << endl << endl;
-				astar(&start, &goal, 1);
-				cout << "Using h2:" << endl << endl;
-				cout << start << endl;
-				astar(&start, &goal, 2);
-				cout << "Using h3:" << endl << endl;
+				//astar(&start, &goal, 1);
+				//cout << "Using h2:" << endl << endl;
+				//cout << start << endl;
+				//astar(&start, &goal, 2);
+				//cout << "Using h3:" << endl << endl;
 				cout << start << endl;
 				astar(&start, &goal, 3);
 			}
