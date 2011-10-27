@@ -36,7 +36,7 @@ public:
 
 	//state();
 
-	state::state(const state& obj);
+	state(const state& obj);
 
 	/**
 	DECONSTRUCTOR:
@@ -83,7 +83,7 @@ public:
 	*/
 	bool operator== (const state& otherState) const;
 
-	state& state::operator= (const state& otherState);
+	state& operator= (const state& otherState);
 
 	/**
 	FUNCTION: overload operator << 

@@ -623,9 +623,10 @@ int f(int htype, const state* st){
 	}
 	else{
 		cerr << endl << "ERROR: Illegal Argument to function f() - First argumnet must have value 1 2, or 3" << endl;
-		exit(0);
+		
 		return -1;
 	}
 }
+
 
 

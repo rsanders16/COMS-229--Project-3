@@ -15,6 +15,12 @@ bool RUN_H3 = true;
 list<state*> OPEN = *new list<state*>();
 list<state*> CLOSED = *new list<state*>();
 
+int abs(int v){
+	if(v == 0 ) return 0;
+	if(v < 0) return -v;
+	return v;
+}
+
 int numberOfInversions(state& x)
 {
 	int num = 0;
