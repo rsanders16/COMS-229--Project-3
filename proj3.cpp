@@ -7,6 +7,11 @@
 
 using namespace std;
 
+
+bool RUN_H1 = false;
+bool RUN_H2 = false;
+bool RUN_H3 = true;
+
 list<state*> OPEN = *new list<state*>();
 list<state*> CLOSED = *new list<state*>();
 
@@ -194,14 +199,29 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 
 	list<state*> neighbors = *new list<state*>;
 	int** board = s->getBoard();
+
+	if(
+		board[0][0] == 0 &&
+		board[0][1] == 4 &&
+		board[0][2] == 2 &&
+		board[1][0] == 3 &&
+		board[1][1] == 1 &&
+		board[1][2] == 5 &&
+		board[2][0] == 8 &&
+		board[2][1] == 6 &&
+		board[2][2] == 7
+		){
+			board[0][0] = board[0][0];
+	}
+
 	if(board[0][0] == 0){
 		neighbors.push_back(&(*new state(getInitalizedBoard(0,1, board), s)));
 		neighbors.push_back(&(*new state(getInitalizedBoard(0,3, board), s)));
 		if(allowDoubleMoves){
 
-				newBoard[0][0] = board[0][2];
-				newBoard[0][1] = board[0][0];
-				newBoard[0][2] = board[0][1];
+				newBoard[0][0] = board[0][1];
+				newBoard[0][1] = board[0][2];
+				newBoard[0][2] = board[0][0];
 
 				newBoard[1][0] = board[1][0];
 				newBoard[1][1] = board[1][1];
@@ -212,17 +232,17 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 				newBoard[2][2] = board[2][2];
 				neighbors.push_back(&(*new state(newBoard, s)));
 
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = board[1][2];
+				newBoard[0][0] = board[1][0];
+				newBoard[0][1] = board[1][0];
+				newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = board[1][0];
+				newBoard[1][0] = board[2][0];
 				newBoard[1][1] = board[1][1];
 				newBoard[1][2] = board[2][2];
 
-				newBoard[2][0] = board[2][0];
+				newBoard[2][0] = board[0][0];
 				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[0][2];
+				newBoard[2][2] = board[2][2];
 				neighbors.push_back(&(*new state(newBoard, s)));
 		}
 	}
@@ -299,7 +319,7 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 		neighbors.push_back(&(*new state(getInitalizedBoard(4,3, board), s)));
 		neighbors.push_back(&(*new state(getInitalizedBoard(4,1, board), s)));
 		neighbors.push_back(&(*new state(getInitalizedBoard(4,5, board), s)));
-		neighbors.push_back(&(*new state(getInitalizedBoard(4,8, board), s)));
+		neighbors.push_back(&(*new state(getInitalizedBoard(4,7, board), s)));
 	}
 	else if(board[1][2] == 0){
 		neighbors.push_back(&(*new state(getInitalizedBoard(5,8, board), s)));
@@ -537,28 +557,35 @@ int main(){
 
 		state start(NULL, NULL);
 		cin >> start;
-		cout << endl << start << endl;
+		//cout << endl << start << endl;
 
 		if(numberOfInversions(start) % 2 == 0)
 		{
-			cout << "No solution exists!" << endl << endl;
+			cout << endl << "No solution exists!" << endl << endl;
 		}
 		else
 		{
 			if(start == goal){
-				cout << "0 moves in total." << endl << endl;
+				cout <<endl << goal;
+				cout << endl << "0 moves in total." << endl << endl;
 			}
 			else {
-				//cout << "Using h1:" << endl << endl;
-				//astar(&start, &goal, 1);
-				//cout << "Using h2:" << endl << endl;
-				//cout << start << endl;
-				//astar(&start, &goal, 2);
-				//cout << "Using h3:" << endl << endl;
-				cout << start << endl;
-				astar(&start, &goal, 3);
+				if(RUN_H1){
+					cout << endl << "Using h1:" << endl << endl;
+					cout << start << endl;
+					astar(&start, &goal, 1);
+				}
+				if(RUN_H2){
+					cout << endl << "Using h2:" << endl << endl;
+					cout << start << endl;
+					astar(&start, &goal, 2);
+				}
+				if(RUN_H3){
+					cout << endl << "Using h3:" << endl << endl;
+					cout << start << endl;
+					astar(&start, &goal, 3);
+				}
 			}
-
 		}
 
 		cout << "Inital State (input):" << endl;
