@@ -581,6 +581,26 @@ int h2(const state& st){
 	return sum;
 } 
 
+
+/**
+FUNCTION: h3(state&)
+DESCRIPTION:  The heuristic function used when double-move operators are allowed.
+PARAMS:
+st - The state being evaluated against the goal state.
+RETURN:
+The h3 value of the state passed in.
+*/
+int h3(const state& st){
+	int h2Value = h2(st);
+	if(h2Value %2 == 0)
+	{
+		return (h2Value + 2) / 2;
+	}
+	else{
+		return (h2Value + 1) / 2;
+	}
+}
+
 /**
 FUNCTION: f(int)
 DESCRIPTION:  Value of the function f based on the heuristic type (h1 or h2).
@@ -597,8 +617,12 @@ int f(int htype, const state* st){
 	{
 		return st->getG() + h2(*st);
 	}
+	else if(htype == 3)
+	{
+		return st->getG() + h3(*st);
+	}
 	else{
-		cerr << endl << "ERROR: Illegal Argument to function f() - First argumnet must have value 1 or 2" << endl;
+		cerr << endl << "ERROR: Illegal Argument to function f() - First argumnet must have value 1 2, or 3" << endl;
 		exit(0);
 		return -1;
 	}
