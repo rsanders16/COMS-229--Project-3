@@ -71,7 +71,7 @@ The program should run with no errors.  You will first see your inital state sol
 
 HEURISTIC SWITCHES
 -----------------------------------
-	You can controll what heuristic functions are called during the execution of the prog3.exe
+	You can controll what heuristic functions are called during the execution of the proj3.exe
 	There are three bools near the top of proj3.cpp
 	
 	Set one of the following (in the proj3.cpp file--not here) to false if you do not want that heuristic function to printout.
