@@ -8,8 +8,8 @@
 using namespace std;
 
 
-bool RUN_H1 = false;
-bool RUN_H2 = false;
+bool RUN_H1 = true;
+bool RUN_H2 = true;
 bool RUN_H3 = true;
 
 list<state*> OPEN = *new list<state*>();
@@ -199,29 +199,14 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 
 	list<state*> neighbors = *new list<state*>;
 	int** board = s->getBoard();
-
-	if(
-		board[0][0] == 0 &&
-		board[0][1] == 4 &&
-		board[0][2] == 2 &&
-		board[1][0] == 3 &&
-		board[1][1] == 1 &&
-		board[1][2] == 5 &&
-		board[2][0] == 8 &&
-		board[2][1] == 6 &&
-		board[2][2] == 7
-		){
-			board[0][0] = board[0][0];
-	}
-
 	if(board[0][0] == 0){
 		neighbors.push_back(&(*new state(getInitalizedBoard(0,1, board), s)));
 		neighbors.push_back(&(*new state(getInitalizedBoard(0,3, board), s)));
 		if(allowDoubleMoves){
 
-				newBoard[0][0] = board[0][1];
-				newBoard[0][1] = board[0][2];
-				newBoard[0][2] = board[0][0];
+				newBoard[0][0] = board[0][2];
+				newBoard[0][1] = board[0][0];
+				newBoard[0][2] = board[0][1];
 
 				newBoard[1][0] = board[1][0];
 				newBoard[1][1] = board[1][1];
@@ -232,17 +217,17 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 				newBoard[2][2] = board[2][2];
 				neighbors.push_back(&(*new state(newBoard, s)));
 
-				newBoard[0][0] = board[1][0];
-				newBoard[0][1] = board[1][0];
-				newBoard[0][2] = board[0][2];
+				newBoard[0][0] = board[0][0];
+				newBoard[0][1] = board[0][1];
+				newBoard[0][2] = board[1][2];
 
-				newBoard[1][0] = board[2][0];
+				newBoard[1][0] = board[1][0];
 				newBoard[1][1] = board[1][1];
 				newBoard[1][2] = board[2][2];
 
-				newBoard[2][0] = board[0][0];
+				newBoard[2][0] = board[2][0];
 				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[2][2];
+				newBoard[2][2] = board[0][2];
 				neighbors.push_back(&(*new state(newBoard, s)));
 		}
 	}
