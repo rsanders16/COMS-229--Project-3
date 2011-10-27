@@ -575,7 +575,8 @@ int main(){
 				if(RUN_H3){
 					cout << endl << "Using h3:" << endl << endl;
 					if(start.getBoard()[0][0] == 4 && start.getBoard()[0][1] == 1 && start.getBoard()[0][2] == 2 && start.getBoard()[1][0] == 3 && start.getBoard()[1][1] == 5 && start.getBoard()[1][2] == 0 && start.getBoard()[2][0] == 8 && start.getBoard()[2][1] == 6 && start.getBoard()[2][2] == 7){
-						cout << "The initial state entered can not be solved in a acceptable amount of time using h3" << endl << endl;
+						cout << "Initial state can't be solved in an acceptable amount of time" << endl;
+						cout << "Program will now ask for another initial state..." << endl << endl;
 					}
 					else{
 						cout << start << endl;

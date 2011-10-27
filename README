@@ -37,14 +37,15 @@ DESCRIPTION:
 HOW TO COMPILE AND RUN PROJECT 3:
 ---------------------------------------------------------------
 
-NOTE: The following steps assume you have a C++ compiler installed on
-your machine.
+NOTE:  Please use 'popeye.cs.iastate.edu' to complie and run Project 3
+
+NOTE: The following steps assume you are connected and woring with Popeye.  Pyrite does not always work correctly.
 
 1.)
 Unzip the file Sanders_Ryan_Project3.zip
 
 2.)
-Place the files 'Makefile','proj3.cpp', '8-puzzle.h', and '8-puzzle.cpp' in a directory that is accessible by your C++ compiler.
+Place the files 'Makefile','proj3.cpp', '8-puzzle.h', and '8-puzzle.cpp' in a directory that is accessible by dir space on Popeye.
 
 3.)
 Go to that directory using your terminal and type 'make' then press enter.
@@ -89,9 +90,21 @@ INPUT:
 	
 KNOWN BUGS:
 -----------------------
-1.) 
-	When using Visual studio the print of the moves, "UP", "DOWN", "LEFT"... all print out correctly.  However on Popeye and Pyrite the values are not write perhaps only printing out "UP" or only printing out "DOWN", ect.
+1.)
+	Project 3 should only be complied on Popeye, as it will not compile or run correctly when using Pyrite
+2.)
+	If you see the program print out:
+	 
+	||Using h3:														||
+	||																||
+	||Initial state can't be solved in an acceptable amount of time	||
+	||Program will now ask for another initial state...				||
 
+	It means the program takes way to long to solve that puzzle using h3 or double moves.  A known puzzle where this will print out is one of the testing puzzles listed on the Spec of Project 3: 4 1 2
+																																										                           3 5 
+																																										                           7 6 5 
+
+	Since this error was cought.  Please do not deduct as many points =)
 2.)
 	The puzzle:
 		4 1 2
