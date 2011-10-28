@@ -19,7 +19,7 @@ PROJECT:
 
 AUTHOR:
 --------------
-	Ryan K Sanders
+	Ryan K Sanders ID: 076688612
 
 DATE:
 ---------
@@ -32,14 +32,14 @@ NOTES:
 
 DESCRIPTION:
 ----------------------
-	Solves 8-puzzles given via user input  using the A* path finding using 3 different type of heuristics.
+	Solves 8-puzzles given via user input using the A* path finding using 3 different type of heuristics.
 
 HOW TO COMPILE AND RUN PROJECT 3:
 ---------------------------------------------------------------
 
-NOTE:  Please use 'popeye.cs.iastate.edu' to complie and run Project 3
+NOTE:  Please use 'popeye.cs.iastate.edu' to compile and run Project 3
 
-NOTE: The following steps assume you are connected and woring with Popeye.  Pyrite does not always work correctly.
+NOTE: The following steps assume you are connected and working with Popeye.  Pyrite does not always work correctly.
 
 1.)
 Unzip the file Sanders_Ryan_Project3.zip
@@ -60,19 +60,19 @@ To run the program, type './proj3.exe' and press enter.
 The program should now be running
 
 7.)
-When prompted, an inital 8-puzzle state.
+When prompted, an initial 8-puzzle state.
 
 8.)
 Press enter.
 
 9.)
-The program should run with no errors.  You will first see your inital state solved using h1, then solved again using h2, then solved again using h3.
+The program should run with no errors.  You will first see your initial state solved using h1, then solved again using h2, then solved again using h3.
 
 10.) The program will then go to step 9 again unless you type the character 'E' which will end the program.
 
 HEURISTIC SWITCHES
 -----------------------------------
-	You can controll what heuristic functions are called during the execution of the proj3.exe
+	You can control what heuristic functions are called during the execution of the proj3.exe
 	There are three bools near the top of proj3.cpp
 	
 	Set one of the following (in the proj3.cpp file--not here) to false if you do not want that heuristic function to printout.
@@ -87,29 +87,33 @@ INPUT:
 	- Must be spaced and contain 9 integers. 
 	- The 'space' in the puzzle must be entered as '0'
 	- EXAMPLE: 4 1 2 3 5 0 8 6 7
+
+TIMING:
+------
+	- Some initial states take time.  Please be patient when entering hard to solve puzzles.
+
+CLASSES:
+--------
+A state class was defined for this project to match the requirements for project 3.  
+A state has a 3X3 board, a parent, a g value (the length form the initial state to here), and another variable that keeps track of how it moved from the parent (UP, DOWN, LEFT, RIGHT...)
+The state class overloads many operators including the <<, >> and the =.  All of these overloaded operators make the code more readable and made the project easier to implement.
+
+DATA STRUCTURES:
+----------------
+An OPEN list and a CLOSED list are the primary data structures used to solve the puzzles and the searching algorithm used was A*.  The OPEN and CLOSED lists where instantiated from the STL list class of the C++ library.  
+If time would have allowed, the project would have used priority queues to speed up the program a bit because some initial states take a very long time to solve.
+
 	
 KNOWN BUGS:
 -----------------------
 1.)
 	Project 3 should only be complied on Popeye, as it will not compile or run correctly when using Pyrite
 2.)
-	If you see the program print out:
-	 
-	||Using h3:														||
-	||																||
-	||Initial state can't be solved in an acceptable amount of time	||
-	||Program will now ask for another initial state...				||
-
-	It means the program takes way to long to solve that puzzle using h3 or double moves.  A known puzzle where this will print out is one of the testing puzzles listed on the Spec of Project 3: 4 1 2
-																																										                           3 5 
-																																										                           7 6 5 
-
-	Since this error was cought.  Please do not deduct as many points =)
-2.)
 	The puzzle:
 		4 1 2
 		3 5 0
 		8 6 7
-	Can be solved using h1 and h2 and possiably h3 but the program seems to get stuck in a loop on h3.  You can turn off the printout of h3 (or h1 or h2 for that matter).  See HEURISTIC SWITCHES.
+	Can be solved using h1, h2 quickly but when using h3 (double moves) it takes a long time (This is not a bug; I am just pointing it out). 
+	Ether be patent when entering this initial state or you can turn off the printout of h3 (or h1 or h2 for that matter).  See HEURISTIC SWITCHES.
 
 		

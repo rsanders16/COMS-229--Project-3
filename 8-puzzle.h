@@ -30,6 +30,9 @@ public:
 	bd - A pointer the board to be instantiated
 	sate - A pointer to the boards parent state
 	*/
+	state(int **bd, state* prnt);
+	
+	
 	state(int **bd, state* prnt, char* move = "");
 
     //state(int **bd);
