@@ -9,14 +9,14 @@ CONSTRUCTOR:  state(int**, state*)
 DESCRIPTION:  Generate a state with a 3x3 board configuration stored in a 2-dimunsional array bd, and a pointer to its parent state.
 PARAMS:
 bd - A pointer the board to be instantiated
-sate - A pointer to the boards parent state
+prnt - A pointer to the boards parent state
 */
 state::state(int **bd, state* prnt){
 	if(bd == NULL){
 		this->boardMemoryAllocated = false;
 		return;
 	}
-	
+
 	this->board = new int*[NUM_ROWS_ON_BOARD];
 	for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
 	{
@@ -32,24 +32,31 @@ state::state(int **bd, state* prnt){
 	this->board[2][1] = bd[2][1];
 	this->board[2][2] = bd[2][2];
 	this->boardMemoryAllocated = true;
-	
+
 	if(prnt == NULL){
 		this->g = 0;
 		return;
 	}
-	
+
 	this->move = "UNKNOWN";
 	this->g = prnt->getG() + 1;
 	this->parent = prnt;
 }
 
-
+	/**
+	CONSTRUCTOR:  state(int**, state*)
+	DESCRIPTION:  Generate a state with a 3x3 board configuration stored in a 2-dimunsional array bd, and a pointer to its parent state.
+	PARAMS:
+	bd - A pointer the board to be instantiated
+	prnt - A pointer to the boards parent state
+	move - A sting value of the move this new state took to get form its parent state.
+	*/
 state::state(int **bd, state* prnt, char * move){
 	if(bd == NULL){
 		this->boardMemoryAllocated = false;
 		return;
 	}
-	
+
 	this->board = new int*[NUM_ROWS_ON_BOARD];
 	for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
 	{
@@ -65,39 +72,49 @@ state::state(int **bd, state* prnt, char * move){
 	this->board[2][1] = bd[2][1];
 	this->board[2][2] = bd[2][2];
 	this->boardMemoryAllocated = true;
-	
+
 	if(prnt == NULL){
 		this->g = 0;
 		return;
 	}
-	
+
 	this->move = move;
 	this->g = prnt->getG() + 1;
 	this->parent = prnt;
 }
 
+	/**
+	COPY CONSTRUCTOR:  state(const state& obj)
+	DESCRIPTION:  Deep copyes obj to this object
+	PARAMS:
+	obj - The obj that this object is about to become.
+	*/
 state::state(const state& obj){
 	this->g = obj.g;
 	this->parent = obj.parent;
 	if(obj.boardMemoryAllocated == true){
-			this->board = new int*[NUM_ROWS_ON_BOARD];
-			for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
-			{
-				this->board[i] = new int[NUM_COLS_ON_BOARD];
-			}
-			this->board[0][0] = obj.getBoard()[0][0];
-			this->board[0][1] = obj.getBoard()[0][1];
-			this->board[0][2] = obj.getBoard()[0][2];
-			this->board[1][0] = obj.getBoard()[1][0];
-			this->board[1][1] = obj.getBoard()[1][1];
-			this->board[1][2] = obj.getBoard()[1][2];
-			this->board[2][0] = obj.getBoard()[2][0];
-			this->board[2][1] = obj.getBoard()[2][1];
-			this->board[2][2] = obj.getBoard()[2][2];
-			this->move = obj.move;
+		this->board = new int*[NUM_ROWS_ON_BOARD];
+		for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
+		{
+			this->board[i] = new int[NUM_COLS_ON_BOARD];
+		}
+		this->board[0][0] = obj.getBoard()[0][0];
+		this->board[0][1] = obj.getBoard()[0][1];
+		this->board[0][2] = obj.getBoard()[0][2];
+		this->board[1][0] = obj.getBoard()[1][0];
+		this->board[1][1] = obj.getBoard()[1][1];
+		this->board[1][2] = obj.getBoard()[1][2];
+		this->board[2][0] = obj.getBoard()[2][0];
+		this->board[2][1] = obj.getBoard()[2][1];
+		this->board[2][2] = obj.getBoard()[2][2];
+		this->move = obj.move;
 	}
 }
 
+	/**
+	DECONSTRUCTOR:
+	DESCRIPTION: Destructs "this" state object by freeing the memory of board and parent since they are stored with dynamic memory.
+	*/
 state::~state(){
 	if(this->boardMemoryAllocated){
 		for(int i = 0; i < 3; i++){
@@ -107,19 +124,29 @@ state::~state(){
 	}
 }
 
+	/**
+	FUNCTION: setParent()
+	DESCRIPTION:  Sets this parent to prnt.  Important and used in the astar function.
+	RETURN:  The number of moves from the inital state to the current state.
+	*/
 void state::setParent(state* prnt){
 	this->parent = prnt;
 }
 
-/**
-FUNCTION: getG()
-DESCRIPTION:  Returns the class var g
-RETURN:  The number of moves from the inital state to the current state.
-*/
+	/**
+	FUNCTION: getG()
+	DESCRIPTION:  Returns the class var g
+	RETURN:  The number of moves from the inital state to the current state.
+	*/
 int state::getG() const{
 	return this->g;
 }
 
+	/**
+	FUNCTION: getMove()
+	DESCRIPTION:  Returns the move this state took from its parent state
+	RETURN:  //The sting value of the move this state took from its parent state
+	*/
 char* state::getMove() const{
 	return this->move;
 }
@@ -130,23 +157,6 @@ DESCRIPTION:  Returns the class var board
 RETURN:  // 3x3 configuration of the board.
 */
 int** state::getBoard() const{
-	//int ** board;
-	//board = new int*[NUM_ROWS_ON_BOARD];
-	//for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
-	//{
-	//	board[i] = new int[NUM_COLS_ON_BOARD];
-	//}
-
-	//board[0][0] = this->board[0][0];
-	//board[0][1] = this->board[0][1];
-	//board[0][2] = this->board[0][2];
-	//board[1][0] = this->board[1][0];
-	//board[1][1] = this->board[1][1];
-	//board[1][2] = this->board[1][2];
-	//board[2][0] = this->board[2][0];
-	//board[2][1] = this->board[2][1];
-	//board[2][2] = this->board[2][2];
-	//return board;
 	if(this->boardMemoryAllocated == false){
 		int ** boardX = new int*[NUM_ROWS_ON_BOARD];
 		for(int i = 0 ; i < NUM_ROWS_ON_BOARD; i++)
@@ -176,26 +186,12 @@ state* state::getParent() const{
 	return this->parent;
 }
 
-///**
-//FUNCTION: overload < operator
-//DESCRIPTION: Overloads the < operator so that it can be used to test wheather or not 'this' state is less than the paramater otherState.
-//RETURN bool - True if in fact 'this' state is less then otherState
-//*/
-//bool state::operator< (const state& otherState) const{
-//	return this->g < otherState.g;
-//}
-
 /**
 FUNCTION: overload == operator
 DESCRIPTION: Overloads the == operator so that it can be used to test wheather or not 'this' state is equal to otherState.
 RETURN bool - True if in fact 'this' state is equal to otherState
 */
 bool state::operator== (const state& otherState) const{
-	//if(this->getG() != otherState.getG())return false;
-	//if(this->getParent() != otherState.getParent())return false;
-	//if(otherState.getParent() == NULL) return false;
-	//if(this->getG() != otherState.getG()) return false;
-	//if(this->getParent() != this->getParent()) return false;
 	if(otherState.boardMemoryAllocated == false) return false;
 	if(this->getBoard()[0][0] != otherState.getBoard()[0][0])return false;
 	if(this->getBoard()[0][1] != otherState.getBoard()[0][1])return false;
@@ -209,10 +205,14 @@ bool state::operator== (const state& otherState) const{
 	return true;
 }
 
+	/**
+	FUNCTION: overload = operator
+	DESCRIPTION: Overloads the = operator so that it can be used assign otherState to this state.
+	RETURN state reference - The new state
+	*/
 state& state::operator= (const state& otherState){
-if(this != &otherState)
+	if(this != &otherState)
 	{
-		
 		g = otherState.g;
 		parent = otherState.parent;
 		if(otherState.boardMemoryAllocated && this->boardMemoryAllocated){
@@ -232,9 +232,6 @@ if(this != &otherState)
 			board[2][2] = otherState.getBoard()[2][2];
 			move = otherState.getMove();
 		}
-		//state newState = *new state(otherState.getBoard(), otherState.getParent());
-		//newState.setG(otherState.getG());
-		//*this = newState;
 	}
 	return *this;
 }
@@ -287,15 +284,6 @@ RETRUN: The instream used during the execution of this function
 istream& operator>> (istream& istr, state& x){
 	int p1, p2, p3, p4, p5, p6, p7, p8, p9;
 	cin >> p1 >> p2 >> p3 >> p4 >> p5 >> p6 >> p7 >> p8 >> p9;
-	//p1 = 2;
-	//p2 = 8;
-	//p3 = 3;
-	//p4 = 1;
-	//p5 = 6;
-	//p6 = 4;
-	//p7 = 7;
-	//p8 = 5;
-	//p9 = 0;
 
 	int **board;
 	board = new int*[NUM_ROWS_ON_BOARD];
@@ -303,7 +291,7 @@ istream& operator>> (istream& istr, state& x){
 	{
 		board[i] = new int[NUM_COLS_ON_BOARD];
 	}
-	
+
 	board[0][0] = p1;
 	board[0][1] = p2;
 	board[0][2] = p3;
@@ -316,8 +304,6 @@ istream& operator>> (istream& istr, state& x){
 	board[2][1] = p8;
 	board[2][2] = p9;
 
-
-
 	x.board = board;
 	x.parent= NULL;
 	x.g = -1;
@@ -325,7 +311,6 @@ istream& operator>> (istream& istr, state& x){
 
 	return istr;
 } 
-
 
 /**
 FUNCTION: h1(state&)
@@ -476,35 +461,6 @@ int h2(const state& st){
 			sum += 3;
 		}
 	}
-	//if(board[1][1] != 0){
-	//	if(board[0][0] == 0){
-	//		sum += 2;
-	//	}
-	//	else if(board[0][1] == 0){
-	//		sum += 1;
-	//	}
-	//	else if(board[0][2] == 0){
-	//		sum += 2;
-	//	}
-	//	else if(board[1][0] == 0){
-	//		sum += 1;
-	//	}
-	//	else if(board[1][1] == 0){
-	//		sum += 0;
-	//	}
-	//	else if(board[1][2] == 0){
-	//		sum += 1;
-	//	}
-	//	else if(board[2][0] == 0){
-	//		sum += 2;
-	//	}
-	//	else if(board[2][1] == 0){
-	//		sum += 1;
-	//	}
-	//	else if(board[2][2] == 0){
-	//		sum += 2;
-	//	}
-	//}
 	if(board[1][2] != 4){
 		if(board[0][0] == 4){
 			sum += 3;
@@ -624,7 +580,6 @@ int h2(const state& st){
 	return sum;
 } 
 
-
 /**
 FUNCTION: h3(state&)
 DESCRIPTION:  The heuristic function used when double-move operators are allowed.
@@ -664,21 +619,39 @@ int f(int htype, const state* st){
 	{
 		return st->getG() + h3(*st);
 	}
-	else{
-		cerr << endl << "ERROR: Illegal Argument to function f() - First argumnet must have value 1 2, or 3" << endl;
-		
-		return -1;
-	}
 }
 
+/**
+The OPEN list used by the AStar Program.  Notice pointers to states where used rather then just states to help speed up the program and reduce memory usage.
+*/
 list<state*> OPEN = *new list<state*>();
+
+/**
+The CLOSED list used by the AStar Program.  Notice pointers to states where used rather then just states to help speed up the program and reduce memory usage.
+*/
 list<state*> CLOSED = *new list<state*>();
 
+/**
+FUNCTION: abs(int)
+DESCRIPTION:  Determines the absolute value of an integer.
+PARAMS:
+v - The number to be calculated againt
+RETURN:
+The absolute value of v.
+*/
 int abs(int v){
 	if(v < 0) return -v;
 	else return v;
 }
 
+/**
+FUNCTION: numberOfInversions(state&)
+DESCRIPTION:  Calculates the number of inversions a given state has.  Follows guidlines from spec of project 3
+PARAMS:
+x - The state being evaluated for inversions.
+RETURN:
+A number greater then 0 that represents the number of inversions a puzzle state has.
+*/
 int numberOfInversions(state& x)
 {
 	int num = 0;
@@ -701,13 +674,14 @@ int numberOfInversions(state& x)
 	return num;
 }
 
-
-
-
-
+/**
+FUNCTION: printPath()
+DESCRIPTION:  Given a current state, this function prints out the path from the inital state to the goal state.  Places linked list on stack to reverse order before printing it out.  This part of the program also clean up the memory.
+PARAMS:
+current_state - Will be the goal state, which will have a pointer to its parent which will have a pointer to its parent and so on unitl the intail state.
+*/
 void printPath(state* current_state, state* goal, bool allowDoubleMoves){
 
-	
 	stack<state> pathStack = *new stack<state>();
 	int moveCount = 0;
 	while(current_state->getG() != -1){
@@ -715,77 +689,7 @@ void printPath(state* current_state, state* goal, bool allowDoubleMoves){
 		current_state = current_state->getParent();
 		moveCount++;
 	}
-	int lastPosOf0 = 0;
-	int curPosOf0 = 0;
-	if(current_state->getBoard()[0][0] == 0)lastPosOf0 = 0;
-	else if(current_state->getBoard()[0][1] == 0)lastPosOf0 = 1;
-	else if(current_state->getBoard()[0][2] == 0)lastPosOf0 = 2;
-	else if(current_state->getBoard()[1][0] == 0)lastPosOf0 = 3;
-	else if(current_state->getBoard()[1][1] == 0)lastPosOf0 = 4;
-	else if(current_state->getBoard()[1][2] == 0)lastPosOf0 = 5;
-	else if(current_state->getBoard()[2][0] == 0)lastPosOf0 = 6;
-	else if(current_state->getBoard()[2][1] == 0)lastPosOf0 = 7;
-	else if(current_state->getBoard()[2][2] == 0)lastPosOf0 = 8;
-
 	for(int i = 0 ; i < moveCount ; i++){
-		//////////////////////////////////////////////////////////////////////////////////////////////
-		///START OF MOVE PRINTER
-		///LEFT, RIGHT, UP, or DOWN, will be printed out depending on what kind of move took place
-		//////////////////////////////////////////////////////////////////////////////////////////////
-		//if(pathStack.top().getBoard()[0][0] == 0)curPosOf0 = 0;
-		//else if(pathStack.top().getBoard()[0][1] == 0)curPosOf0 = 1;
-		//else if(pathStack.top().getBoard()[0][2] == 0)curPosOf0 = 2;
-		//else if(pathStack.top().getBoard()[1][0] == 0)curPosOf0 = 3;
-		//else if(pathStack.top().getBoard()[1][1] == 0)curPosOf0 = 4;
-		//else if(pathStack.top().getBoard()[1][2] == 0)curPosOf0 = 5;
-
-
-
-		//else if(pathStack.top().getBoard()[2][0] == 0)curPosOf0 = 6;
-		//else if(pathStack.top().getBoard()[2][1] == 0)curPosOf0 = 7;
-		//else if(pathStack.top().getBoard()[2][2] == 0)curPosOf0 = 8;
-		//if(curPosOf0 < lastPosOf0){
-		//	if(curPosOf0 == lastPosOf0 - 1){
-		//		cout << "RIGHT";
-		//	}
-		//	else if(curPosOf0 == lastPosOf0 - 2 && allowDoubleMoves){
-		//		cout << "DBL-RIGHT";
-		//	}
-		//	else if( abs(curPosOf0 - lastPosOf0) == 6 && allowDoubleMoves){
-		//		cout << "DBL-DOWN";
-		//	}
-		//	else{
-		//		cout << "DOWN";
-		//	}
-		//}
-		//else{
-		//	if(curPosOf0 == lastPosOf0 + 1){
-		//		cout << "LEFT";
-		//	}
-		//	else if(curPosOf0 == lastPosOf0 + 2 && allowDoubleMoves){
-		//		cout << "DBL-LEFT";
-		//	}
-		//	else if( abs(curPosOf0 - lastPosOf0) == 6 && allowDoubleMoves){
-		//		cout << "DBL-UP";
-		//	}
-		//	else{
-		//		cout << "UPPw";
-		//	}
-		//}
-		
-		//if(pathStack.top().getBoard()[0][0] == 0)lastPosOf0 = 0;
-		//else if(pathStack.top().getBoard()[0][0] == 0)lastPosOf0 = 0;
-		//else if(pathStack.top().getBoard()[0][1] == 0)lastPosOf0 = 1;
-		//else if(pathStack.top().getBoard()[0][2] == 0)lastPosOf0 = 2;
-		//else if(pathStack.top().getBoard()[1][0] == 0)lastPosOf0 = 3;
-		//else if(pathStack.top().getBoard()[1][1] == 0)lastPosOf0 = 4;
-		//else if(pathStack.top().getBoard()[1][2] == 0)lastPosOf0 = 5;
-		//else if(pathStack.top().getBoard()[2][0] == 0)lastPosOf0 = 6;
-		//else if(pathStack.top().getBoard()[2][1] == 0)lastPosOf0 = 7;
-		//else if(pathStack.top().getBoard()[2][2] == 0)lastPosOf0 = 8;
-		//////////////////////////////////////////////////////////////////////////////////////////////
-		///END OF MOVE PRINTER
-		//////////////////////////////////////////////////////////////////////////////////////////////
 		cout << pathStack.top().getMove();
 		cout << endl << endl;
 		cout << pathStack.top();
@@ -793,10 +697,10 @@ void printPath(state* current_state, state* goal, bool allowDoubleMoves){
 		pathStack.pop();
 
 	}
-
 	cout << moveCount << " moves in total.";
 	cout << endl << endl;
 
+	//NOTICE: This is where memory clean up happens.
 	//DELETION OF CURRENT LIST
 	list<state*>::iterator delIter;
 	list<state*>::iterator deleteiter;
@@ -804,6 +708,13 @@ void printPath(state* current_state, state* goal, bool allowDoubleMoves){
 	CLOSED.erase(CLOSED.begin(), CLOSED.end());
 }
 
+/**
+FUNCTION: getInitalizedBoard()
+DESCRIPTION:  Allocates a new board and swaps two values (makes a move)
+PARAMS:
+	p1 - place in oldBoard is swaped with place in oldBoard of index p2
+	p2 - place in oldBoard is swaped with place in oldBoard of index p1
+*/
 int** getInitalizedBoard(int p1, int p2, int** oldBoard){
 	int **newBoard;
 	newBoard = new int*[NUM_ROWS_ON_BOARD];
@@ -840,6 +751,14 @@ int** getInitalizedBoard(int p1, int p2, int** oldBoard){
 	return newBoard;
 }
 
+/**
+FUNCTION: neighbor_nodes()
+DESCRIPTION:  Determines all neighbors of a given state, including double move neighbors if allowDoubleMoves is set to true.
+PARAMS:
+state - The parent state
+allowDobuleMoves - If set to true, then double move neighbors are added to the list that is returned to the caller.
+RETURN:  A list of leagal neighboard of the parent
+*/
 list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 	int **newBoard;
 	newBoard = new int*[NUM_ROWS_ON_BOARD];
@@ -856,31 +775,31 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 		neighbors.push_back(&(*new state(getInitalizedBoard(0,3, board), s, "UP")));
 		if(allowDoubleMoves){
 
-				newBoard[0][0] = board[0][1];
-				newBoard[0][1] = board[0][2];
-				newBoard[0][2] = board[0][0];
+			newBoard[0][0] = board[0][1];
+			newBoard[0][1] = board[0][2];
+			newBoard[0][2] = board[0][0];
 
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[1][2];
+			newBoard[1][0] = board[1][0];
+			newBoard[1][1] = board[1][1];
+			newBoard[1][2] = board[1][2];
 
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-LEFT")));
+			newBoard[2][0] = board[2][0];
+			newBoard[2][1] = board[2][1];
+			newBoard[2][2] = board[2][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-LEFT")));
 
-				newBoard[0][0] = board[1][0];
-				newBoard[0][1] = board[1][0];
-				newBoard[0][2] = board[0][2];
+			newBoard[0][0] = board[1][0];
+			newBoard[0][1] = board[1][0];
+			newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = board[2][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[2][2];
+			newBoard[1][0] = board[2][0];
+			newBoard[1][1] = board[1][1];
+			newBoard[1][2] = board[2][2];
 
-				newBoard[2][0] = board[0][0];
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-UP")));
+			newBoard[2][0] = board[0][0];
+			newBoard[2][1] = board[2][1];
+			newBoard[2][2] = board[2][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-UP")));
 		}
 	}
 	else if(board[0][1] == 0){
@@ -888,49 +807,49 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 		neighbors.push_back(&(*new state(getInitalizedBoard(1,0, board), s, "RIGHT")));
 		neighbors.push_back(&(*new state(getInitalizedBoard(1,4, board), s, "UP")));
 		if(allowDoubleMoves){
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[1][1];
-				newBoard[0][2] = board[0][2];
+			newBoard[0][0] = board[0][0];
+			newBoard[0][1] = board[1][1];
+			newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[2][1];
-				newBoard[1][2] = board[1][2];
+			newBoard[1][0] = board[1][0];
+			newBoard[1][1] = board[2][1];
+			newBoard[1][2] = board[1][2];
 
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = board[0][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-UP")));
+			newBoard[2][0] = board[2][0];
+			newBoard[2][1] = board[0][1];
+			newBoard[2][2] = board[2][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-UP")));
 		}
 	}
 	else if(board[0][2] == 0){
 		neighbors.push_back(&(*new state(getInitalizedBoard(2,5, board), s, "UP")));
 		neighbors.push_back(&(*new state(getInitalizedBoard(2,1, board), s, "RIGHT")));
 		if(allowDoubleMoves){
-				newBoard[0][0] = board[0][2];
-				newBoard[0][1] = board[0][0];
-				newBoard[0][2] = board[0][1];
+			newBoard[0][0] = board[0][2];
+			newBoard[0][1] = board[0][0];
+			newBoard[0][2] = board[0][1];
 
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[1][2];
+			newBoard[1][0] = board[1][0];
+			newBoard[1][1] = board[1][1];
+			newBoard[1][2] = board[1][2];
 
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-RIGHT")));
+			newBoard[2][0] = board[2][0];
+			newBoard[2][1] = board[2][1];
+			newBoard[2][2] = board[2][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-RIGHT")));
 
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = board[1][2];
+			newBoard[0][0] = board[0][0];
+			newBoard[0][1] = board[0][1];
+			newBoard[0][2] = board[1][2];
 
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[2][2];
+			newBoard[1][0] = board[1][0];
+			newBoard[1][1] = board[1][1];
+			newBoard[1][2] = board[2][2];
 
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[0][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-UP")));
+			newBoard[2][0] = board[2][0];
+			newBoard[2][1] = board[2][1];
+			newBoard[2][2] = board[0][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-UP")));
 		}
 	}
 	else if(board[1][0] == 0){
@@ -938,18 +857,18 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 		neighbors.push_back(&(*new state(getInitalizedBoard(3,6, board), s, "UP")));
 		neighbors.push_back(&(*new state(getInitalizedBoard(3,4, board), s, "LEFT")));
 		if(allowDoubleMoves){
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = board[0][2];
+			newBoard[0][0] = board[0][0];
+			newBoard[0][1] = board[0][1];
+			newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = board[1][1];
-				newBoard[1][1] = board[1][2];
-				newBoard[1][2] = board[1][0];
+			newBoard[1][0] = board[1][1];
+			newBoard[1][1] = board[1][2];
+			newBoard[1][2] = board[1][0];
 
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-LEFT")));
+			newBoard[2][0] = board[2][0];
+			newBoard[2][1] = board[2][1];
+			newBoard[2][2] = board[2][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-LEFT")));
 		}
 	}
 	else if(board[1][1] == 0){
@@ -963,49 +882,49 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 		neighbors.push_back(&(*new state(getInitalizedBoard(5,2, board), s, "DOWN")));
 		neighbors.push_back(&(*new state(getInitalizedBoard(5,4, board), s, "RIGHT")));
 		if(allowDoubleMoves){
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = board[0][2];
+			newBoard[0][0] = board[0][0];
+			newBoard[0][1] = board[0][1];
+			newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = board[1][2];
-				newBoard[1][1] = board[1][0];
-				newBoard[1][2] = board[1][1];
+			newBoard[1][0] = board[1][2];
+			newBoard[1][1] = board[1][0];
+			newBoard[1][2] = board[1][1];
 
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-RIGHT")));
+			newBoard[2][0] = board[2][0];
+			newBoard[2][1] = board[2][1];
+			newBoard[2][2] = board[2][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-RIGHT")));
 		}
 	}
 	else if(board[2][0] == 0){
 		neighbors.push_back(&(*new state(getInitalizedBoard(6,7, board), s, "LEFT")));
 		neighbors.push_back(&(*new state(getInitalizedBoard(6,3, board), s, "DOWN")));
 		if(allowDoubleMoves){
-				newBoard[0][0] = board[2][0];
-				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = board[0][2];
+			newBoard[0][0] = board[2][0];
+			newBoard[0][1] = board[0][1];
+			newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = board[0][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[1][2];
+			newBoard[1][0] = board[0][0];
+			newBoard[1][1] = board[1][1];
+			newBoard[1][2] = board[1][2];
 
-				newBoard[2][0] = board[1][0];
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-DOWN")));
+			newBoard[2][0] = board[1][0];
+			newBoard[2][1] = board[2][1];
+			newBoard[2][2] = board[2][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-DOWN")));
 
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = board[0][2];
+			newBoard[0][0] = board[0][0];
+			newBoard[0][1] = board[0][1];
+			newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[1][2];
+			newBoard[1][0] = board[1][0];
+			newBoard[1][1] = board[1][1];
+			newBoard[1][2] = board[1][2];
 
-				newBoard[2][0] = board[2][1];
-				newBoard[2][1] = board[2][2];
-				newBoard[2][2] = board[2][0];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-LEFT")));
+			newBoard[2][0] = board[2][1];
+			newBoard[2][1] = board[2][2];
+			newBoard[2][2] = board[2][0];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-LEFT")));
 		}
 	}
 	else if(board[2][1] == 0){
@@ -1013,49 +932,49 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 		neighbors.push_back(&(*new state(getInitalizedBoard(7,6, board), s, "RIGHT")));
 		neighbors.push_back(&(*new state(getInitalizedBoard(7,8, board), s, "LEFT")));
 		if(allowDoubleMoves){
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[2][1];
-				newBoard[0][2] = board[0][2];
+			newBoard[0][0] = board[0][0];
+			newBoard[0][1] = board[2][1];
+			newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[0][1];
-				newBoard[1][2] = board[1][2];
+			newBoard[1][0] = board[1][0];
+			newBoard[1][1] = board[0][1];
+			newBoard[1][2] = board[1][2];
 
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = board[1][1];
-				newBoard[2][2] = board[2][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-DOWN")));
+			newBoard[2][0] = board[2][0];
+			newBoard[2][1] = board[1][1];
+			newBoard[2][2] = board[2][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-DOWN")));
 		}
 	}
 	else if(board[2][2] == 0){
 		neighbors.push_back(&(*new state(getInitalizedBoard(8,7, board), s, "RIGHT")));
 		neighbors.push_back(&(*new state(getInitalizedBoard(8,5, board), s, "DOWN")));
 		if(allowDoubleMoves){
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = board[0][2];
+			newBoard[0][0] = board[0][0];
+			newBoard[0][1] = board[0][1];
+			newBoard[0][2] = board[0][2];
 
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[1][2];
+			newBoard[1][0] = board[1][0];
+			newBoard[1][1] = board[1][1];
+			newBoard[1][2] = board[1][2];
 
-				newBoard[2][0] = board[2][2];
-				newBoard[2][1] = board[2][0];
-				newBoard[2][2] = board[2][1];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-RIGHT")));
-								
-				newBoard[0][0] = board[0][0];
-				newBoard[0][1] = board[0][1];
-				newBoard[0][2] = board[2][2];
+			newBoard[2][0] = board[2][2];
+			newBoard[2][1] = board[2][0];
+			newBoard[2][2] = board[2][1];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-RIGHT")));
 
-				newBoard[1][0] = board[1][0];
-				newBoard[1][1] = board[1][1];
-				newBoard[1][2] = board[0][2];
+			newBoard[0][0] = board[0][0];
+			newBoard[0][1] = board[0][1];
+			newBoard[0][2] = board[2][2];
 
-				newBoard[2][0] = board[2][0];
-				newBoard[2][1] = board[2][1];
-				newBoard[2][2] = board[1][2];
-				neighbors.push_back(&(*new state(newBoard, s, "DBL-DOWN")));
+			newBoard[1][0] = board[1][0];
+			newBoard[1][1] = board[1][1];
+			newBoard[1][2] = board[0][2];
+
+			newBoard[2][0] = board[2][0];
+			newBoard[2][1] = board[2][1];
+			newBoard[2][2] = board[1][2];
+			neighbors.push_back(&(*new state(newBoard, s, "DBL-DOWN")));
 		}
 	}
 
@@ -1064,49 +983,66 @@ list<state*> neighbor_nodes(state* s, bool allowDoubleMoves){
 
 
 
-
+/**
+FUNCTION: astar()
+DESCRIPTION:
+	The A* algorithm maintains two lists, OPEN and CLOSED, of 8-Puzzle states.  The
+	states in the CLOSED list have been expanded; that is, they have been examined
+	and their successor states have been generated.  The states in the OPEN list
+	have yet to be expanded.
+PARAMS:
+state - The parent state
+allowDobuleMoves - If set to true, then double move neighbors are added to the list that is returned to the caller.
+RETURN:  A list of leagal neighboard of the parent
+*/
 bool astar(state* start, state* goal, int h_function_to_use){
-	
+
 	bool allowDoubleMoves = false;
 	if(h_function_to_use == 3){
-				allowDoubleMoves = true;
+		allowDoubleMoves = true;
 	}
 
+	//1. Put the start state S0 on OPEN.  Let g(S0) = 0 and estimate
+    //h(S0).
 	OPEN.push_back(&*start);
 
 	while(!OPEN.empty()){
 		list<state*>::iterator i = OPEN.begin();
-		
 		state* S = *i;
-		//const state* SPtr = &S;
-
 		for(i = OPEN.begin() ; i != OPEN.end(); ++i){
 			if(f(h_function_to_use, *i) < f(h_function_to_use, S)){
 				S = *i;
 			}
 		}
-		
-		
+
+	    //3. Remove from OPEN and place on CLOSED a state S whose f value is
+        //minimum.  If there are several states with the same minimum
+        //value, arbitrarily remove one; if one is the goal state, then
+        //remove the goal state.
 		CLOSED.push_back(S);
 		OPEN.remove(S);
-		
+
+
+		//4. If S is the goal state, exit successfully and print out the
+        //entire solution path (step-by-step state transitions)
 		if(*S == *goal){
-			
-			
 			printPath(S, goal, allowDoubleMoves);
 			return true;	
 		}
+		
+	    //5. Otherwise, generate S's all possible successor states in one
+        //valid move and set their parent pointers back to S.  For every
+        //successor state T of S:
 		else{
 			list<state*> neighbors = neighbor_nodes(S,allowDoubleMoves);
 			list<state*>::iterator neighbor_iter;
 
-			//cout << "PARENT: " <<endl << *S << endl << endl;
 			for(neighbor_iter = neighbors.begin() ; neighbor_iter != neighbors.end() ; ++neighbor_iter){
-				//cout << "CHILD: " <<endl << **neighbor_iter << endl << endl;
-				
+
 				state* old_value = *neighbor_iter;
 				state* current_neighbor = *neighbor_iter;
-				
+
+				//Determine if current_neighbor is in open list.
 				list<state*>::iterator open_list_iter;
 				bool current_neighbor_is_in_open_list = false;
 				for(open_list_iter = OPEN.begin() ; open_list_iter != OPEN.end() ; ++open_list_iter){
@@ -1116,6 +1052,7 @@ bool astar(state* start, state* goal, int h_function_to_use){
 					}
 				}
 
+				//Determine if current_neighbor is in closed list.
 				list<state*>::iterator closed_list_iter;
 				bool current_neighbor_is_in_closed_list = false;
 				for(closed_list_iter = CLOSED.begin() ; closed_list_iter != CLOSED.end() ; ++closed_list_iter){
@@ -1125,14 +1062,23 @@ bool astar(state* start, state* goal, int h_function_to_use){
 					}
 				}
 
+				//If T is not already on OPEN or CLOSED, then put it on OPEN. 
 				if(current_neighbor_is_in_open_list == false && current_neighbor_is_in_closed_list == false ){
 					OPEN.push_back(current_neighbor);
 				}
+
+				//If T is already on OPEN, compare its old and new f values
+     			//and choose the minimum, resetting its parent pointer (along
+     			//the path yielding the lowest g(T)).
 				else if(current_neighbor_is_in_open_list){
 					if(f(h_function_to_use, current_neighbor) < f(h_function_to_use, old_value)){
 						(*old_value).setParent(S);
 					}
 				}
+
+				//If T is on CLOSED and its new f value is less than the old
+   			    //one, remove T from CLOSED, put it on OPEN and reset its parent
+   		        //pointer.
 				else if(current_neighbor_is_in_closed_list){
 					if(f(h_function_to_use, current_neighbor) < f(h_function_to_use, old_value)){
 						(*old_value).setParent(S);
@@ -1143,6 +1089,7 @@ bool astar(state* start, state* goal, int h_function_to_use){
 			}
 		}
 	}
+	//2. If OPEN is empty, exit with failure.
 	return false;
 }
 

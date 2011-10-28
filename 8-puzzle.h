@@ -28,17 +28,26 @@ public:
 	DESCRIPTION:  Generate a state with a 3x3 board configuration stored in a 2-dimunsional array bd, and a pointer to its parent state.
 	PARAMS:
 	bd - A pointer the board to be instantiated
-	sate - A pointer to the boards parent state
+	prnt - A pointer to the boards parent state
 	*/
 	state(int **bd, state* prnt);
-	
-	
+
+	/**
+	CONSTRUCTOR:  state(int**, state*)
+	DESCRIPTION:  Generate a state with a 3x3 board configuration stored in a 2-dimunsional array bd, and a pointer to its parent state.
+	PARAMS:
+	bd - A pointer the board to be instantiated
+	prnt - A pointer to the boards parent state
+	move - A sting value of the move this new state took to get form its parent state.
+	*/
 	state(int **bd, state* prnt, char* move = "");
 
-    //state(int **bd);
-
-	//state();
-
+	/**
+	COPY CONSTRUCTOR:  state(const state& obj)
+	DESCRIPTION:  Deep copyes obj to this object
+	PARAMS:
+	obj - The obj that this object is about to become.
+	*/
 	state(const state& obj);
 
 	/**
@@ -47,6 +56,11 @@ public:
 	*/
 	~state();
 
+	/**
+	FUNCTION: setParent()
+	DESCRIPTION:  Sets this parent to prnt.  Important and used in the astar function.
+	RETURN:  The number of moves from the inital state to the current state.
+	*/
 	void setParent(state* prnt);
 
 	/**
@@ -55,8 +69,6 @@ public:
 	RETURN:  The number of moves from the inital state to the current state.
 	*/
 	int getG() const;
-
-	//void setG(int g);
 
 	/**
 	FUNCTION: getBoard()
@@ -72,14 +84,12 @@ public:
 	*/
 	state* getParent() const;
 
-	char* getMove() const;
-
 	/**
-	FUNCTION: overload < operator
-	DESCRIPTION: Overloads the < operator so that it can be used to test wheather or not 'this' state is less than the paramater otherState.
-	RETURN bool - True if in fact 'this' state is less then otherState
+	FUNCTION: getMove()
+	DESCRIPTION:  Returns the move this state took from its parent state
+	RETURN:  //The sting value of the move this state took from its parent state
 	*/
-	//bool operator< (const state& otherState) const;
+	char* getMove() const;
 
 	/**
 	FUNCTION: overload == operator
@@ -88,14 +98,19 @@ public:
 	*/
 	bool operator== (const state& otherState) const;
 
+	/**
+	FUNCTION: overload = operator
+	DESCRIPTION: Overloads the = operator so that it can be used assign otherState to this state.
+	RETURN state reference - The new state
+	*/
 	state& operator= (const state& otherState);
 
 	/**
 	FUNCTION: overload operator << 
 	DESCRIPTION: Follows the spec of project 2 output for a 'state' object
 	PARAMS:
-		ostr - The outstream that the state will be printed to
-		x - The state object
+	ostr - The outstream that the state will be printed to
+	x - The state object
 	RETRUN: The outstream used during the execution of this function
 	*/
 	friend ostream& operator<< (ostream& ostr, const state& x);
@@ -104,14 +119,14 @@ public:
 	FUNCTION: overload operator >> 
 	DESCRIPTION: Follows the spec of project 3 input.  A single given board state is inputed via standard input.
 	PARAMS:
-		istr - The instream that the 'this' state should be parsed from
-		x - The state to be created
+	istr - The instream that the 'this' state should be parsed from
+	x - The state to be created
 	RETRUN: The instream used during the execution of this function
 	*/
 	friend istream& operator>> (istream& istr, state& x); 
 
-	
 
+	
 private:
 
 	int g; //Number of moves from the inital state to the current state.
@@ -120,9 +135,9 @@ private:
 
 	state* parent; //The state from which the current state is generated with one move.
 
-	bool boardMemoryAllocated;
+	bool boardMemoryAllocated; //States whether or not the board memory has been allocated yet.
 
-	char* move;
+	char* move; //The move this state took from its parent state.  WARNING: Can ONLY be "UP", "DOWN", "LEFT", "RIGHT", "DBL-LEFT", "DBL-RIGHT", "DBL-UP", or "DBL-DOWN"
 
 };
 

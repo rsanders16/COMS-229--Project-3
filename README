@@ -102,6 +102,7 @@ DATA STRUCTURES:
 ----------------
 An OPEN list and a CLOSED list are the primary data structures used to solve the puzzles and the searching algorithm used was A*.  The OPEN and CLOSED lists where instantiated from the STL list class of the C++ library.  
 If time would have allowed, the project would have used priority queues to speed up the program a bit because some initial states take a very long time to solve.
+Notice the lists hold pointers to states rather then just states to help speed up the program and reduce memory usage.
 
 	
 KNOWN BUGS:
