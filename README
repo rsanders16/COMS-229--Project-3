@@ -114,7 +114,5 @@ KNOWN BUGS:
 		4 1 2
 		3 5 0
 		8 6 7
-	Can be solved using h1, h2 quickly but when using h3 (double moves) it takes a long time (This is not a bug; I am just pointing it out). 
+	Can be solved using h1, h2 quickly but when using h3 (double moves) it takes a long time but never-the-less solves the puzzle using a few less moves than h1 or h2 (This is not a bug; I am just pointing it out). 
 	Ether be patent when entering this initial state or you can turn off the printout of h3 (or h1 or h2 for that matter).  See HEURISTIC SWITCHES.
-
-		
