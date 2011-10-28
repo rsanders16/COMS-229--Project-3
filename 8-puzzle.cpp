@@ -619,6 +619,7 @@ int f(int htype, const state* st){
 	{
 		return st->getG() + h3(*st);
 	}
+	return st->getG() + h2(*st);
 }
 
 /**
